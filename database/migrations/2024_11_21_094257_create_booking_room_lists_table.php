@@ -11,12 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('testimonials', function (Blueprint $table) {
+        Schema::create('booking_room_lists', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->nullable();
-            $table->string('city')->nullable();
-            $table->string('image')->nullable();
-            $table->text('message');
             $table->timestamps();
         });
     }
@@ -26,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('testimonials');
+        Schema::dropIfExists('booking_room_lists');
     }
 };

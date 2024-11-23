@@ -13,7 +13,7 @@
     <ul class="metismenu" id="menu">
 
         <li>
-            <a href="widgets.html">
+            <a href="{{route('admin.dashboard')}}">
                 <div class="parent-icon"><i class='bx bx-home-alt'></i>
                 </div>
                 <div class="menu-title">Dashboard</div>
@@ -65,18 +65,18 @@
                 
             </ul>
         </li>
-        <li class="menu-label">UI Elements</li>
+        <li class="menu-label">Booking Manage</li>
   
         <li>
             <a href="javascript:;" class="has-arrow">
                 <div class="parent-icon"><i class='bx bx-cart'></i>
                 </div>
-                <div class="menu-title">eCommerce</div>
+                <div class="menu-title">Booking</div>
             </a>
             <ul>
-                <li> <a href="ecommerce-products.html"><i class='bx bx-radio-circle'></i>Products</a>
+                <li> <a href="{{route('booking.list')}}"><i class='bx bx-radio-circle'></i>Booking List</a>
                 </li>
-                <li> <a href="ecommerce-products-details.html"><i class='bx bx-radio-circle'></i>Product Details</a>
+                <li> <a href="{{route('add.room.list')}}"><i class='bx bx-radio-circle'></i>Add Booking</a>
                 </li>
                
             </ul>
@@ -85,13 +85,56 @@
             <a class="has-arrow" href="javascript:;">
                 <div class="parent-icon"><i class='bx bx-bookmark-heart'></i>
                 </div>
-                <div class="menu-title">Components</div>
+                <div class="menu-title">Manage RoomList</div>
             </a>
             <ul>
-                <li> <a href="component-alerts.html"><i class='bx bx-radio-circle'></i>Alerts</a>
+                <li> <a href="{{route('view.room.list')}}"><i class='bx bx-radio-circle'></i>Room List</a>
                 </li>
-                <li> <a href="component-accordions.html"><i class='bx bx-radio-circle'></i>Accordions</a>
+               
+    
+            </ul>
+        </li>
+        <li>
+            <a class="has-arrow" href="javascript:;">
+                <div class="parent-icon"><i class='bx bx-bookmark-heart'></i>
+                </div>
+                <div class="menu-title">Setting</div>
+            </a>
+            <ul>
+                <li> <a href="{{route('smtp.setting')}}"><i class='bx bx-radio-circle'></i>SMTP Setting</a>
                 </li>
+               
+    
+            </ul>
+        </li>
+
+        <li>
+            <a class="has-arrow" href="javascript:;">
+                <div class="parent-icon"><i class='bx bx-bookmark-heart'></i>
+                </div>
+                <div class="menu-title">Testimonial</div>
+            </a>
+            <ul>
+                <li> <a href="{{route('all.testimonial')}}"><i class='bx bx-radio-circle'></i>All Testimonial</a>
+                </li>
+                <li> <a href="{{route('add.testimonial')}}"><i class='bx bx-radio-circle'></i>Add Testimonial</a>
+                </li>
+               
+    
+            </ul>
+        </li>
+
+        <li>
+            <a class="has-arrow" href="javascript:;">
+                <div class="parent-icon"><i class='bx bx-bookmark-heart'></i>
+                </div>
+                <div class="menu-title">Blog</div>
+            </a>
+            <ul>
+                <li> <a href="{{route('blog.category')}}"><i class='bx bx-radio-circle'></i>Blog Category</a>
+                </li>
+              
+               
     
             </ul>
         </li>
