@@ -10,9 +10,12 @@ use App\Http\Controllers\Backend\RoomListController;
 use App\Http\Controllers\Backend\SettingController;
 use App\Http\Controllers\Backend\TestimonialController;
 use App\Http\Controllers\Backend\BlogController;
-
+use App\Http\Controllers\Frontend\FrontendRoomController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Models\Booking;
 use App\Models\Team;
+use App\Http\Controllers\Backend\CommentController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -27,21 +30,40 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+// Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login');
 
+// Load The main page of the website
+Route::get('/',[UserController::class, 'index']);
+
+
+// User Dashboard, user must be logged in
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    return view('frontend.dashboard.user_dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+
+
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/profile', [UserController::class, 'UserProfile'])->name('user.profile');
+    Route::post('/profile/store', [UserController::class, 'UserStore'])->name('profile.store');
+    Route::get('/user/logout', [UserController::class, 'UserLogout'])->name('user.logout');
+    Route::get('/user/change/password', [UserController::class, 'UserChangePassword'])->name('user.change.password');
+    Route::post('/password/change/password', [UserController::class, 'ChangePasswordStore'])->name('password.change.store');
+
+
 });
 
-require __DIR__.'/auth.php';
+require __DIR__.'/auth.php'; // to include the auth routes routes/auth.php (built in by breeze)
+
+
+
+
+
+
+//====================================================================================================
 
 // Admin Group Middleware
 Route::middleware(['auth', 'roles:admin'])->group(function () {
@@ -157,6 +179,20 @@ Route::middleware(['auth', 'roles:admin'])->group(function () {
  Route::controller(BlogController::class)->group(function(){
     Route::get('/blog/category', 'BlogCategory')->name('blog.category');
     Route::post('/store/blog/category', 'StoreBlogCategory')->name('store.blog.category');
+    Route::get('/edit/blog/category/{id}', 'EditBlogCategory'); // show edit blog category
+    Route::post('/update/blog/category', 'UpdateBlogCategory')->name('update.blog.category'); // update blog category
+    Route::get('/delete/blog/category/{id}', 'DeleteBlogCategory')->name('delete.blog.category');
+
+ });
+
+
+ Route::controller(BlogController::class)->group(function(){
+    Route::get('/all/blog/post', 'AllBlogPost')->name('all.blog.post');
+    Route::get('/add/blog/post', 'AddBlogPost')->name('add.blog.post');
+    Route::post('/store/blog/post', 'StoreBlogPost')->name('store.blog.post');
+    Route::get('/edit/blog/post/{id}', 'EditBlogPost')->name('edit.blog.post');
+    Route::post('/update/blog/post', 'UpdateBlogPost')->name('update.blog.post');
+    Route::get('/delete/blog/post/{id}', 'DeleteBlogPost')->name('delete.blog.post');
 
  });
 
@@ -169,3 +205,48 @@ Route::middleware(['auth', 'roles:admin'])->group(function () {
   
     });
 }); // End Room Group Middleware
+
+
+Route::controller(FrontendRoomController::class)->group(function () {
+    Route::get('/rooms/', 'AllFrontendRoomList')->name('froom.all');
+    Route::get('/room/details/{id}', 'RoomDetailsPage');
+    Route::get('/bookings/','BookingSearch')->name('booking.search');
+    Route::get('/search/room/details/{id}', 'SearchRoomDetails')->name('search_room_details');
+    Route::get('/check_room_availability/', 'CheckRoomAvailability')->name('check_room_availability');
+
+
+
+});
+
+
+// Auth Middleware User must have login for access this route 
+Route::middleware(['auth'])->group(function(){
+    /// CHECKOUT ALL Route 
+Route::controller(BookingController::class)->group(function(){
+   Route::get('/checkout/', 'Checkout')->name('checkout');
+   Route::post('/booking/store/', 'BookingStore')->name('user_booking_store'); // store booking data on session
+   Route::post('/checkout/store/', 'CheckoutStore')->name('checkout.store'); // store checkout data on booking and booked_dates tables
+   Route::match(['get', 'post'],'/stripe_pay', [BookingController::class, 'stripe_pay'])->name('stripe_pay');
+
+
+
+    
+
+});
+}); // End Group Auth Middleware
+
+
+ /// Frontend Blog  All Route 
+ Route::controller(BlogController::class)->group(function(){
+    Route::get('/blog/details/{slug}', 'BlogDetails');
+    Route::get('/blog/cat/list/{id}', 'BlogCatList');
+    Route::get('/blog', 'BlogList')->name('blog.list');
+
+});
+
+Route::controller(CommentController::class)->group(function(){
+ 
+    Route::post('/store/comment/', 'StoreComment')->name('store.comment');
+   
+ 
+});

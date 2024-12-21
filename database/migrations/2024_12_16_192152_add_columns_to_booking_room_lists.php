@@ -12,7 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('booking_room_lists', function (Blueprint $table) {
-            
+            $table->integer('booking_id')->nullable();
+            $table->integer('room_id')->nullable();
+            $table->integer('room_number_id')->nullable();
         });
     }
 
@@ -22,7 +24,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('booking_room_lists', function (Blueprint $table) {
-            //
+            $table->dropColumn(['booking_id', 'room_id', 'room_number_id']);
+
         });
     }
 };

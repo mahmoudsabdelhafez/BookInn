@@ -9,6 +9,8 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use App\Models\User;
+
 
 class AuthenticatedSessionController extends Controller
 {
@@ -29,13 +31,23 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
+//=================== Start Logged In Notification with user name ===================
+$id = Auth::user()->id;
+        $profileData = User::find($id);
+        $username = $profileData->name;
+        $notification = array(
+            'message' => 'User '.$username.' Login Successfully',
+            'alert-type' => 'info'
+        );
+//=================== End Logged In Notification with user name =====================
+
         $url ='';
         if($request->user()->role === 'admin'){
             $url = '/admin/dashboard';
         } elseif($request->user()->role === 'user'){
             $url = '/dashboard';
         }
-        return redirect()->intended($url);
+        return redirect()->intended($url)->with($notification);
     }
 
     /**
@@ -49,6 +61,6 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect('/login');
     }
 }

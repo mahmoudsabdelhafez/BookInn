@@ -14,6 +14,7 @@ class RoomNumber extends Model
     public function room_type(){
         return $this->belongsTo(RoomType::class,'room_type_id');
     }
+
     public function last_booking(){
         return $this->hasOne(BookingRoomList::class, 'room_number_id')->latest();
     }
