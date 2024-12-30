@@ -23,6 +23,24 @@ class CommentController extends Controller
             'alert-type' => 'success'
         );
         return redirect()->back()->with($notification); 
+    }// End Method
+    
+
+    public function AllComment(){
+
+        $allcomment = Comment::latest()->get();
+        return view('backend.comment.all_comment',compact('allcomment'));
+    }// End Method 
+
+    public function UpdateCommentStatus(Request $request){
+        $commentId = $request->input('comment_id');
+        $isChecked = $request->input('is_checked',0);
+        $comment = Comment::find($commentId);
+        if ($comment) {
+           $comment->status = $isChecked;
+           $comment->save(); 
+        }
+        return response()->json(['message' => 'Comment Status Updated Successfully']);
     }// End Method 
 
 }

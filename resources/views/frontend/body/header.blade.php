@@ -1,3 +1,8 @@
+
+@php
+    $setting = App\Models\SiteSetting::find(1);
+@endphp
+
 <header class="top-header top-header-bg">
     <div class="container">
         <div class="row align-items-center">
@@ -5,7 +10,10 @@
                 <div class="language-list">
                     <select class="language-list-item">
                         <option>English</option>
-                       
+                        <option>العربيّة</option>
+                        <option>Deutsch</option>
+                        <option>Português</option>
+                        <option>简体中文</option>
                     </select>	
                 </div>
             </div>
@@ -15,15 +23,14 @@
                     <ul>
                         <li>
                             <i class='bx bx-home-alt'></i>
-                            <a href="#">Dubai jumeirah beach - UAE</a>
+                            <a href="#">{{ $setting->address }}</a>
                         </li>
                         <li>
                             <i class='bx bx-phone-call'></i>
-                            <a href="tel:+1-(123)-456-7890">+971 (05) 24324</a>
+                            <a href="tel:{{ $setting->phone }}">{{ $setting->phone }}</a>
                         </li>
   
-{{-- If Auth, if user is logged in then show dashboard and logout link else show login and register links --}}
-  @auth 
+  @auth
 
   <li>
     <i class='bx bxs-user-pin'></i>
@@ -48,7 +55,6 @@
 </li>
       
   @endauth
-  {{-- ============================================================================== --}}
                        
 
                     </ul>

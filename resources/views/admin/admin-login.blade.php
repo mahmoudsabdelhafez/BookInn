@@ -55,8 +55,8 @@
             <form class="row g-3" method="POST" action="{{ route('login') }}">
                 @csrf
                 <div class="col-12">
-                    <label for="inputEmailAddress" class="form-label">Email/Name/Phone</label>
-                    <input type="text" class="form-control" name="login" id="login" @error('login') is-invalid @enderror placeholder="jhon@example.com">
+                    <label for="inputEmailAddress" class="form-label">Email</label>
+                    <input type="email" class="form-control" name="login" id="login" @error('login') is-invalid @enderror placeholder="jhon@example.com">
                     @error('login')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror

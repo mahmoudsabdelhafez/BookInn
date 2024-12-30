@@ -1,9 +1,14 @@
+@php
+    $setting = App\Models\SiteSetting::find(1);
+@endphp
+
+
 <div class="navbar-area">
     <!-- Menu For Mobile Device -->
     <div class="mobile-nav">
         <a href="index.html" class="logo">
-            <img src="{{ asset('frontend/assets/img/logos/logo-1.png') }}" class="logo-one" alt="Logo">
-            <img src="{{ asset('frontend/assets/img/logos/footer-logo1.png') }}" class="logo-two" alt="Logo">
+            <img src="{{ asset($setting->logo) }}" class="logo-one" alt="Logo">
+            <img src="{{ asset($setting->logo) }}" class="logo-two" alt="Logo">
         </a>
     </div>
 
@@ -12,8 +17,8 @@
         <div class="container">
             <nav class="navbar navbar-expand-md navbar-light ">
                 <a class="navbar-brand" href="index.html">
-                    <img src="{{ asset('frontend/assets/img/logos/logo-1.png') }}" class="logo-one" alt="Logo">
-                    <img src="{{ asset('frontend/assets/img/logos/footer-logo1.png') }}" class="logo-two" alt="Logo">
+                    <img src="{{ asset($setting->logo) }}" class="logo-one" alt="Logo">
+                    <img src="{{ asset($setting->logo) }}" class="logo-two" alt="Logo">
                 </a>
 
                 <div class="collapse navbar-collapse mean-menu" id="navbarSupportedContent">
@@ -37,9 +42,9 @@
                         </li>
 
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
-                               Gallery 
-                            </a>
+                            <a href="{{ route('show.gallery') }}" class="nav-link">
+                                Gallery
+                              </a>
                           
                         </li>
 
@@ -70,7 +75,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a href="contact.html" class="nav-link">
+                            <a href="{{ route('contact.us') }}" class="nav-link">
                                 Contact
                             </a>
                         </li>

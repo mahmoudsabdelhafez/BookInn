@@ -6,11 +6,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
-
+use App\Models\Room;
 class UserController extends Controller
 {
     public function Index(){
-        return view('frontend.index');
+    $room = Room::latest()->limit(4)->get();
+        return view('frontend.index' , compact('room'));
     }// End Method 
 
 

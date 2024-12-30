@@ -1,7 +1,6 @@
-{{-- In this Page we use 4 Modules (Booking, RoomNumber, BookingRoomList, RoomBookedDates ) --}}
 @extends('admin.admin-dashboard')
 @section('admin') 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 
 <div class="page-content">
     <div class="row row-cols-1 row-cols-md-2 row-cols-xl-5">
@@ -154,36 +153,36 @@
                     </table>
 
                 </div>
-
-                <div style="clear: both"></div>
-                <div style="margin-top: 40px; margin-bottom:20px;">
-                <a href="javascript::void(0)" class="btn btn-primary assign_room"> Assign Room</a>
-                </div>
-
-                @php
-                $assign_rooms = App\Models\BookingRoomList::with('room_number')->where('booking_id',$editData->id)->get();
-            @endphp
-            @if (count($assign_rooms) > 0) 
-            <table class="table table-bordered">
-                <tr>
-                    <th>Room Number</th>
-                    <th>Action</th>
-                </tr>
-                @foreach ($assign_rooms as $assign_room)  
-                <tr>
-                    <td>{{ $assign_room->room_number->room_no }}</td>
-                    <td>
-                        <a href="{{ route('assign_room_delete',$assign_room->id) }}" id="delete">Delete</a>
-                    </td>
-                </tr>
-                @endforeach
-            </table>
-            @else
-            <div class="alert alert-danger text-center">
-                Not Found Assign Room
-            </div>
-            @endif
  
+
+    <div style="clear: both"></div>
+    <div style="margin-top: 40px; margin-bottom:20px;">
+    <a href="javascript::void(0)" class="btn btn-primary assign_room"> Assign Room</a>
+    </div>
+    @php
+        $assign_rooms = App\Models\BookingRoomList::with('room_number')->where('booking_id',$editData->id)->get();
+    @endphp
+
+    @if (count($assign_rooms) > 0) 
+    <table class="table table-bordered">
+        <tr>
+            <th>Room Number</th>
+            <th>Action</th>
+        </tr>
+        @foreach ($assign_rooms as $assign_room)  
+        <tr>
+            <td>{{ $assign_room->room_number->room_no }}</td>
+            <td>
+                <a href="{{ route('assign_room_delete',$assign_room->id) }}" id="delete">Delete</a>
+            </td>
+        </tr>
+        @endforeach 
+    </table>
+    @else
+    <div class="alert alert-danger text-center">
+        Not Found Assign Room
+    </div>
+    @endif
 
 
                 </div> 
@@ -215,9 +214,7 @@
           <div class="col-md-12" style="margin-top: 20px;">
             <button type="submit" class="btn btn-primary">Update</button> 
             <a href="{{ route('download.invoice',$editData->id) }}" class="btn btn-warning px-3 radius-10"><i class="lni lni-download"></i> Download Invoice</a>
-
           </div>
-
 
                     </div> 
 
@@ -324,29 +321,27 @@
 
        </div>
     </div><!--end row-->
-
-      
-         
+ 
 </div>
 
-<!-- Modal (This model if for showing availabe rooms) -->
-<div class="modal fade myModal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Rooms</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+	<!-- Modal -->
+    <div class="modal fade myModal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Rooms</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                     </div>
+                
             </div>
-            <div class="modal-body">
-                 </div>
-            
         </div>
     </div>
-</div>
 <!-- Modal -->
 
 
-{{-- This script to git and show availability --}}
 <script>
      $(document).ready(function (){
         getAvaility();
@@ -361,27 +356,24 @@
             });
             return false;
         });
+
+
+
      });
 
-    // function getAvaility(){
-    //     var check_in = $('#check_in').val();
-    //     var check_out = $('#check_out').val();
-    //     var room_id = "{{ $editData->rooms_id }}";
-
-    //     $.ajax({
-    //      data: {room_id:room_id, check_in:check_in, check_out:check_out},
-    //      success: function(data){
-    //         $(".availability").text(data['available_room']);
-    //         $("#available_room").val(data['available_room']);
-    //      }
-    //   }); 
-
-    // }
-
     function getAvaility(){
-        static= "3";
-        $(".availability").text(static);
-            $("#available_room").val(static);
+        var check_in = $('#check_in').val();
+        var check_out = $('#check_out').val();
+        var room_id = "{{ $editData->rooms_id }}";
+
+        $.ajax({
+         url: "{{ route('check_room_availability') }}",
+         data: {room_id:room_id, check_in:check_in, check_out:check_out},
+         success: function(data){
+            $(".availability").text(data['available_room']);
+            $("#available_room").val(data['available_room']);
+         }
+      }); 
 
     }
    

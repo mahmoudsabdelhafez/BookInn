@@ -37,9 +37,10 @@
                                         <label>Country <span class="required">*</span></label>
                                         <div class="select-box">
                                             <select name="country" class="form-control">
-                                                <option value="Bangladesh">Bangladesh</option>
-                                                <option value="India">India</option>
                                                 <option value="United Arab">United Arab Emirates</option>
+                                                <option value="United Arab">Jordan</option>
+                                                <option value="United Arab">Italy</option>
+                                                <option value="United Arab">Russia</option>
                                                 <option value="China">China</option>
                                                 <option value="United Kingdom">United Kingdom</option>
                                                 <option value="Germany">Germany</option>

@@ -12,11 +12,16 @@ use App\Http\Controllers\Backend\TestimonialController;
 use App\Http\Controllers\Backend\BlogController;
 use App\Http\Controllers\Frontend\FrontendRoomController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\Backend\ReportController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Models\Booking;
 use App\Models\Team;
+use App\Http\Controllers\Backend\RoleController;
+use App\Http\Controllers\Backend\GalleryController;
 use App\Http\Controllers\Backend\CommentController;
 use Illuminate\Support\Facades\Route;
+
 
 
 /*
@@ -36,6 +41,17 @@ use Illuminate\Support\Facades\Route;
 // Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login');
 
 // Load The main page of the website
+
+// Route::middleware('guest')->group(function () {
+//     Route::get('/login', [AuthenticatedSessionController::class, 'create'])
+//         ->name('login');
+//         Route::post('/login', [AuthenticatedSessionController::class, 'store']);
+
+//     Route::get('/register', [RegisteredUserController::class, 'create'])
+//         ->name('register');
+//     Route::post('/register', [RegisteredUserController::class, 'store']);
+//     });
+
 Route::get('/',[UserController::class, 'index']);
 
 
@@ -78,6 +94,104 @@ Route::middleware(['auth', 'roles:admin'])->group(function () {
     Route::get('/admin/change/password' , [AdminController::class, 'AdminChangePassword'])->name('admin.change.password'); 
     // update password on db
     Route::post('/admin/password/update' , [AdminController::class, 'AdminPasswordUpdate'])->name('admin.password.update'); 
+
+    Route::controller(CommentController::class)->group(function(){ 
+        Route::get('/all/comment/', 'AllComment')->name('all.comment');
+        Route::post('/update/comment/status', 'UpdateCommentStatus')->name('update.comment.status');    
+        
+        /// Booking Report All Route 
+Route::controller(ReportController::class)->group(function(){ 
+    Route::get('/booking/report/', 'BookingReport')->name('booking.report');
+    Route::post('/search-by-date', 'SearchByDate')->name('search-by-date');
+     
+});
+    });
+
+
+     /// Site Setting All Route 
+ Route::controller(SettingController::class)->group(function(){
+    Route::get('/site/setting', 'SiteSetting')->name('site.setting');
+    Route::post('/site/update', 'SiteUpdate')->name('site.update');
+
+      
+});
+
+
+ /// Gallery All Route 
+ Route::controller(GalleryController::class)->group(function(){
+    Route::get('/all/gallery', 'AllGallery')->name('all.gallery');
+    Route::get('/add/gallery', 'AddGallery')->name('add.gallery');
+    Route::post('/store/gallery', 'StoreGallery')->name('store.gallery'); 
+    Route::get('/edit/gallery/{id}', 'EditGallery')->name('edit.gallery');
+    Route::post('/update/gallery', 'UpdateGallery')->name('update.gallery');
+    Route::get('/delete/gallery/{id}', 'DeleteGallery')->name('delete.gallery');
+    Route::post('/delete/gallery/multiple', 'DeleteGalleryMultiple')->name('delete.gallery.multiple');
+
+     // contact message admin view
+     Route::get('/contact/message', 'AdminContactMessage')->name('contact.message');
+    
+      
+});
+
+ /// Permissions All Route 
+ Route::controller(RoleController::class)->group(function(){
+
+    Route::get('/all/permission', 'AllPermission')->name('all.permission');
+    Route::get('/add/permission', 'AddPermission')->name('add.permission');
+    Route::post('/store/permission', 'StorePermission')->name('store.permission');
+    Route::get('/edit/permission/{id}', 'EditPermission')->name('edit.permission');
+    Route::post('/update/permission', 'UpdatePermission')->name('update.permission');
+    Route::get('/delete/permission/{id}', 'DeletePermission')->name('delete.permission');
+
+    Route::get('/import/permission', 'ImportPermission')->name('import.permission');
+    Route::get('/export', 'Export')->name('export');
+    Route::post('/import', 'Import')->name('import');
+
+
+      
+});
+
+ /// Role All Route 
+ Route::controller(RoleController::class)->group(function(){
+    Route::get('/all/roles', 'AllRoles')->name('all.roles');
+    Route::get('/add/roles', 'AddRoles')->name('add.roles');
+    Route::post('/store/roles', 'StoreRoles')->name('store.roles');
+    Route::get('/edit/roles/{id}', 'EditRoles')->name('edit.roles');
+    Route::post('/update/roles', 'UpdateRoles')->name('update.roles');
+    Route::get('/delete/roles/{id}', 'DeleteRoles')->name('delete.roles');
+
+
+    Route::get('/add/roles/permission', 'AddRolesPermission')->name('add.roles.permission');
+    Route::post('/role/permission/store', 'RolePermissionStore')->name('role.permission.store');
+    Route::get('/all/roles/permission', 'AllRolesPermission')->name('all.roles.permission');
+
+    Route::get('/admin/edit/roles/{id}', 'AdminEditRoles')->name('admin.edit.roles');
+    Route::post('/admin/roles/update/{id}', 'AdminRolesUpdate')->name('admin.roles.update');
+    Route::get('/admin/delete/roles/{id}', 'AdminDeleteRoles')->name('admin.delete.roles');
+
+
+
+/// Admin User All Route 
+Route::controller(AdminController::class)->group(function(){
+    Route::get('/all/admin', 'AllAdmin')->name('all.admin'); 
+    Route::get('/add/admin', 'AddAdmin')->name('add.admin');
+    Route::post('/store/admin', 'StoreAdmin')->name('store.admin');
+
+    Route::get('/edit/admin/{id}', 'EditAdmin')->name('edit.admin');
+    Route::post('/update/admin/{id}', 'UpdateAdmin')->name('update.admin');
+    Route::get('/delete/admin/{id}', 'DeleteAdmin')->name('delete.admin');
+
+
+      
+});
+
+
+ 
+ 
+      
+});
+
+
 }); // End Admin Group Middleware
 
 
@@ -92,8 +206,8 @@ Route::get('/admin/login' , [AdminController::class, 'AdminLogin'])->name('admin
 Route::middleware(['auth', 'roles:admin'])->group(function () {
 
     Route::controller(TeamController::class)->group(function () {
-        Route::get('/all/team', 'AllTeam')->name('all.team');
-        Route::get('/add/team', 'AddTeam')->name('add.team');
+        Route::get('/all/team', 'AllTeam')->name('all.team')->middleware('permission:team.all');
+        Route::get('/add/team', 'AddTeam')->name('add.team')->middleware('permission:team.add');
         Route::post('/team/store', 'StoreTeam')->name('team.store');
         Route::get('/edit/store/{id}', 'EditTeam')->name('edit.team'); // here we should pass team id (show edit page)
         Route::post('/team/update', 'UpdateTeam')->name('team.update'); // update team on db
@@ -247,6 +361,27 @@ Route::controller(BookingController::class)->group(function(){
 Route::controller(CommentController::class)->group(function(){
  
     Route::post('/store/comment/', 'StoreComment')->name('store.comment');
+   
+ 
+});
+
+/// Frontend Gallery All Route 
+Route::controller(GalleryController::class)->group(function(){
+ 
+    Route::get('/gallery', 'ShowGallery')->name('show.gallery');
+        
+    // Contact All Route 
+    Route::get('/contact', 'ContactUs')->name('contact.us');
+    Route::post('/store/contact', 'StoreContactUs')->name('store.contact');
+
+   
+ 
+});
+
+/// Notification All Route 
+Route::controller(BookingController::class)->group(function(){
+ 
+    Route::post('/mark-notification-as-read/{notification}', 'MarkAsRead');
    
  
 });

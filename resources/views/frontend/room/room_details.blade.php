@@ -25,13 +25,13 @@
                 <div class="room-details-side">
                     <div class="side-bar-form">
                         <h3>Booking Sheet </h3>
-                        <form>
+                        <form method="get" action="{{route('checkout')}}">
                             <div class="row align-items-center">
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <label>Check in</label>
                                         <div class="input-group">
-                                            <input id="datetimepicker" type="text" class="form-control" placeholder="09/29/2020">
+                                            <input id="datetimepicker" name="check_in" type="text" class="form-control" placeholder="09/29/2024">
                                             <span class="input-group-addon"></span>
                                         </div>
                                         <i class='bx bxs-calendar'></i>
@@ -42,7 +42,7 @@
                                     <div class="form-group">
                                         <label>Check Out</label>
                                         <div class="input-group">
-                                            <input id="datetimepicker-check" type="text" class="form-control" placeholder="09/29/2020">
+                                            <input id="datetimepicker-check" name="check_out" type="text" class="form-control" placeholder="09/29/2024">
                                             <span class="input-group-addon"></span>
                                         </div>
                                         <i class='bx bxs-calendar'></i>
@@ -269,7 +269,7 @@
         <li><i class='bx bxs-hotel'></i> {{ $item->bed_style }}</li>
                                 </ul>
                                 
-                                <a href="room-details.html" class="book-more-btn">
+                                <a href="{{url("search/room/details/$item->id")}}" class="book-more-btn">
                                     Book Now
                                 </a>
                             </div>

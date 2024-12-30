@@ -18,6 +18,9 @@ use App\Models\BookingRoomList;
 use App\Models\RoomNumber;
 use Illuminate\Support\Facades\Auth;
 use Stripe;
+use App\Models\User;
+use App\Notifications\BookingComplete;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Mail; // for email
 use App\Mail\BookConfirm; // for email
 
@@ -78,6 +81,9 @@ class BookingController extends Controller
 
 
     public function CheckoutStore(Request $request){
+
+        $user = User::where('role','admin')->get();
+
 
         $this->validate($request,[
             'name' => 'required',
@@ -175,7 +181,10 @@ class BookingController extends Controller
            $notification = array(
                'message' => 'Booking Added Successfully',
                'alert-type' => 'success'
-           ); 
+           );
+           
+           Notification::send($user, new BookingComplete($request->name));
+
            return redirect('/')->with($notification);  
 
 
@@ -235,47 +244,41 @@ class BookingController extends Controller
 
      public function UpdateBooking(Request $request, $id){
 
-        // here we check if there is enough available rooms 
         if ($request->available_room < $request->number_of_rooms) {
+
             $notification = array(
                 'message' => 'Something Want To Wrong!',
                 'alert-type' => 'error'
             ); 
             return redirect()->back()->with($notification);  
-        } // end if
+        }
 
-
-        // here we update the booking data 
         $data = Booking::find($id);
         $data->number_of_rooms = $request->number_of_rooms;
         $data->check_in = date('Y-m-d', strtotime($request->check_in));
         $data->check_out = date('Y-m-d', strtotime($request->check_out));
         $data->save();
-        //-------------------------------
 
-        // here we delete the old booked dates 
-        BookingRoomList::where('booking_id', $id)->delete();
-        RoomBookedDate::where('booking_id', $id)->delete(); // i don't no what we need it for?
-        //-------------------------------
+        RoomBookedDate::where('booking_id', $id)->delete();
 
-        // here we add new booked dates (we add the all days that this room was booked by this booking)
         $sdate = date('Y-m-d',strtotime($request->check_in ));
         $edate = date('Y-m-d',strtotime($request->check_out));
         $eldate = Carbon::create($edate)->subDay();
         $d_period = CarbonPeriod::create($sdate,$eldate);
-        foreach ($d_period as $period) { // loop over all days in the booking period
+        foreach ($d_period as $period) {
             $booked_dates = new RoomBookedDate();
             $booked_dates->booking_id = $data->id;
             $booked_dates->room_id = $data->rooms_id;
             $booked_dates->book_date = date('Y-m-d', strtotime($period));
             $booked_dates->save();
         }
+
         $notification = array(
             'message' => 'Booking Updated Successfully',
             'alert-type' => 'success'
         ); 
         return redirect()->back()->with($notification);   
-        
+
      }  // End Method 
      
 
@@ -327,6 +330,17 @@ class BookingController extends Controller
         ); 
         return redirect()->back()->with($notification); 
      }// End Method 
+
+
+     public function MarkAsRead(Request $request , $notificationId){
+        $user = Auth::user();
+        $notification = $user->notifications()->where('id',$notificationId)->first();
+        if ($notification) {
+            $notification->markAsRead();
+        }
+  return response()->json(['count' => $user->unreadNotifications()->count()]);
+     }// End Method 
+
 
 
 

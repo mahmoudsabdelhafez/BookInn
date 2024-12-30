@@ -38,7 +38,7 @@
         <div class="row">
             <div class="col-lg-12 ">
                 <div class="form-group">
-                    <input type="text" name="login" id="login" class="form-control" required data-error="Please enter your Username or Email" placeholder="Email/Name/Phone">
+                    <input type="email" name="login" id="login" class="form-control" required data-error="Please enter yourEmail" placeholder="Email">
                 </div>
             </div>
 

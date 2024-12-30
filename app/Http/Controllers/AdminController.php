@@ -3,15 +3,29 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Booking;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Carbon\Carbon;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
+
 
 class AdminController extends Controller
 {
     public function AdminDashboard(){
-        return view('admin.index');
+        $bookings = Booking::latest()->get();
+        $pending = Booking::where('status','0')->get();
+        $complete = Booking::where('status','1')->get();
+        $totalPrice = Booking::sum('total_price');
+      
+        $today = Carbon::now()->toDateString();
+        $todayprice = Booking::whereDate('created_at',$today)->sum('total_price');
+        $allData = Booking::orderBy('id','desc')->limit(10)->get();
+
+        return view('admin.index', compact('bookings','pending','complete','totalPrice','todayprice','allData'));
     } // End Method
 
 
@@ -112,6 +126,117 @@ class AdminController extends Controller
         return redirect()->back()->with($notification);
         
     }
+
+
+
+    public function AllAdmin(){
+        $alladmin = User::where('role','admin')->get();
+        return view('backend.pages.admin.all_admin',compact('alladmin'));
+    }// End Method 
+
+    public function AddAdmin(){
+        $roles = Role::all();
+        return view('backend.pages.admin.add_admin',compact('roles'));
+    }// End Method 
+
+
+    public function StoreAdmin(Request $request)
+{
+    $user = new User();
+
+    $user->name = $request->name;
+    $user->email = $request->email;
+    $user->phone = $request->phone;
+    $user->address = $request->address;
+    $user->password = Hash::make($request->password);
+    $user->role = 'admin';
+    $user->status = 'active';
+
+    $user->save();
+
+    if ($request->roles) {
+        // Retrieve role name from the role ID
+        $role = Role::find($request->roles);
+        if ($role) {
+            $user->assignRole($role->name); // Assign the role by name
+        } else {
+            return redirect()->route('all.admin')->withErrors([
+                'error' => 'Invalid Role ID provided.',
+            ]);
+        }
+    }
+
+    $notification = array(
+        'message' => 'Admin User Created Successfully',
+        'alert-type' => 'success',
+    );
+
+    return redirect()->route('all.admin')->with($notification);
+} // End Method
+
+
+public function EditAdmin($id){
+    $user = User::find($id);
+    $roles = Role::all();
+    return view('backend.pages.admin.edit_admin',compact('user','roles'));
+    
+}// End Method 
+public function UpdateAdmin(Request $request, $id)
+{
+    $user = User::find($id);
+
+    if (!$user) {
+        return redirect()->route('all.admin')->withErrors([
+            'error' => 'Admin User not found.',
+        ]);
+    }
+
+    $user->name = $request->name;
+    $user->email = $request->email;
+    $user->phone = $request->phone;
+    $user->address = $request->address;
+    $user->role = 'admin';
+    $user->status = 'active';
+
+    $user->save();
+
+    // Detach all roles from the user
+    $user->roles()->detach();
+
+    if ($request->roles) {
+        // Retrieve role name from the role ID
+        $role = Role::find($request->roles);
+        if ($role) {
+            $user->assignRole($role->name); // Assign the role by name
+        } else {
+            return redirect()->route('all.admin')->withErrors([
+                'error' => 'Invalid Role ID provided.',
+            ]);
+        }
+    }
+
+    $notification = array(
+        'message' => 'Admin User Updated Successfully',
+        'alert-type' => 'success',
+    );
+
+    return redirect()->route('all.admin')->with($notification);
+} // End Method
+
+public function DeleteAdmin($id){
+    $user = User::find($id);
+    if (!is_null($user)) {
+        $user->delete();
+    }
+    $notification = array(
+        'message' => 'Admin User Delete Successfully',
+        'alert-type' => 'success'
+    );
+    return redirect()->back()->with($notification); 
+}// End Method
+
+
+
 }
 
 

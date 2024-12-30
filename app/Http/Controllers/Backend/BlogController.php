@@ -117,10 +117,10 @@ class BlogController extends Controller
     
             'blogcat_id' => $request->blogcat_id,
             'user_id' => Auth::user()->id,
-            'post_titile' => $request->post_titile,
-            'post_slug' => strtolower(str_replace(' ','-',$request->post_titile)),
-            'short_descp' => $request->short_descp,
-            'long_descp' => $request->long_descp,
+            'post_title' => $request->post_title,
+            'post_slug' => strtolower(str_replace(' ','-',$request->post_title)),
+            'short_desc' => $request->short_desc,
+            'long_desc' => $request->long_desc,
             'post_image' => $save_url,
             'created_at' => Carbon::now(),
             ]);

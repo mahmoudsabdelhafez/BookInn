@@ -60,7 +60,7 @@ class RoomListController extends Controller
     }
 
 
-    public function StoreRoomList(Request $request){ // need to comments
+    public function StoreRoomList(Request $request){
         if ($request->check_in == $request->check_out) {
          $request->flash();
          $notification = array(
@@ -70,16 +70,15 @@ class RoomListController extends Controller
  
          return redirect()->back()->with($notification);
         }
-        // this code is for available rooms (back to it)
-        // if ($request->available_room < $request->number_of_rooms) {
-        //  $request->flash();
-        //  $notification = array(
-        //      'message' => 'You Enter Maximum Number of Rooms!',
-        //      'alert-type' => 'error'
-        //  );
+        if ($request->available_room < $request->number_of_rooms) {
+         $request->flash();
+         $notification = array(
+             'message' => 'You Enter Maximum Number of Rooms!',
+             'alert-type' => 'error'
+         );
  
-        //  return redirect()->back()->with($notification);
-        // }
+         return redirect()->back()->with($notification);
+        }
         $room = Room::find($request['room_id']);
         if ($room->room_capacity < $request->number_of_person ) {
          $notification = array(

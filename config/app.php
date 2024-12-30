@@ -189,6 +189,10 @@ return [
          * Package Service Providers...
          */
         Intervention\Image\ImageServiceProvider::class, // by me, for image resizing
+        Spatie\Permission\PermissionServiceProvider::class, // by me, for Spatie permission
+        Maatwebsite\Excel\ExcelServiceProvider::class, // be by me, for Excel
+
+
 
         /*
          * Application Service Providers...
@@ -215,6 +219,8 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
         'Image' => Intervention\Image\Facades\Image::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class, // by me
+
 
     ])->toArray(),
 
