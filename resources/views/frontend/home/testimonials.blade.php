@@ -1,6 +1,4 @@
-@php
-    $testimonial = App\Models\Testimonial::latest()->get();
-@endphp
+
 <div class="testimonials-area-three pb-70">
     <div class="container">
         <div class="section-title text-center">

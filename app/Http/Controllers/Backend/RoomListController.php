@@ -23,7 +23,7 @@ class RoomListController extends Controller
     public function ViewRoomList(){
         $room_number_list = RoomNumber::with(['room_type',
         'last_booking.booking:id,check_in,check_out,status,code,name,phone'])
-        ->orderBy('room_type_id','asc')
+        ->orderBy('room_type_id','asc') // nested relations: room
 
         // leftJoin: Ensures that even if a room has no associated room type or booking, it will still appear in the results (important for showing all rooms).
         // so here : room_numbers will left join with room_types and bookings to get the required data
@@ -54,13 +54,28 @@ class RoomListController extends Controller
     }
 
 
-    public function AddRoomList(){
+    public function AddRoomList(){ // add booking page
         $roomtype = RoomType::all();
         return view('backend.allroom.roomlist.add_roomlist', compact('roomtype'));
     }
 
 
     public function StoreRoomList(Request $request){
+
+        $request->validate([
+            'room_id' => 'required|exists:rooms,id',
+            'check_in' => 'required|date|after_or_equal:today',
+            'check_out' => 'required|date|after:check_in',
+            'number_of_rooms' => 'required|integer|min:1',
+            'number_of_person' => 'required|integer|min:1',
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'phone' => 'nullable|string|max:20',
+            'country' => 'required|string|max:255',
+            'state' => 'required|string|max:255',
+            'zip_code' => 'required|string|max:10',
+            'address' => 'nullable|string|max:500',
+        ]);
         if ($request->check_in == $request->check_out) {
          $request->flash();
          $notification = array(
@@ -79,7 +94,7 @@ class RoomListController extends Controller
  
          return redirect()->back()->with($notification);
         }
-        $room = Room::find($request['room_id']);
+        $room = Room::find($request['room_id']); 
         if ($room->room_capacity < $request->number_of_person ) {
          $notification = array(
              'message' => 'You Enter Maximum Number of Guest!',

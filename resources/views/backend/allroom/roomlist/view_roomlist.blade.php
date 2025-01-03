@@ -37,7 +37,7 @@
                             <th>Room Number</th>
                             <th>B Status </th>
                             <th>In/Out Date</th>
-                            <th>Booking No</th>
+                            <th >Booking No</th>
                             <th>Customer</th>
                             <th>Status</th>
                         </tr>
@@ -47,7 +47,7 @@
                         <tr>
                             <td>{{ $key+1 }}</td>
                             <td> {{ $item->name }}  </td>
-                            <td>{{ $item->room_no }}</td>
+                            <td>{{ $item->room_no }}</a></td>
                             <td>
                             @if ($item->booking_id != '')
                                 @if ($item->booking_stauts == 1)
@@ -74,12 +74,14 @@
 
                             <td>
                         @if ($item->booking_id != '')
-                        {{ $item->booking_no }} 
+                         
+                        <a href="{{route('edit.booking',$item->booking_id)}}">{{ $item->booking_no }}</a>
                         @endif 
                             </td>
 
                              <td>
                                 @if ($item->booking_id != '')
+                                
                                 {{ $item->customer_name }} 
                                 @endif 
                               </td>

@@ -27,18 +27,16 @@ class FrontendRoomController extends Controller
         return view('frontend.room.room_details',compact('roomdetails','multiImage','facility','otherRooms'));   
      } // End Method 
 
-     public function BookingSearch(Request $request){
+     public function BookingSearch(Request $request){ // function executed when check availability form is submitted
    
-        // Flash the input data to preserve it across redirects (e.g., for old values in form fields)
+        // store the current input data from the request in the session for a single subsequent request
         $request->flash();
     
-        // Check if the check-in and check-out dates are the same
         if ($request->check_in == $request->check_out) {
     
-            // Create a notification to show an error message if the dates are the same
             $notification = array(
-                'message' => 'Something went wrong',  // Error message
-                'alert-type' => 'error'  // Alert type for showing the error message
+                'message' => 'Check In and Check Out Date is same!',  
+                'alert-type' => 'error' 
             );
         
             // Redirect back with the notification
@@ -81,7 +79,23 @@ class FrontendRoomController extends Controller
     } // End Method
     
     public function SearchRoomDetails(Request $request,$id){
-        $request->flash();
+
+        $validateData = $request->validate([
+            'check_in' => 'required',
+            'check_out' => 'required',
+            
+        ]);
+
+        if($request->check_in == $request->check_out){
+            $notification = array(
+                'message' => 'Check In and Check Out Date is same!',
+                'alert-type' => 'error'
+            );
+            return redirect()->back()->with($notification);
+        }
+
+
+        $request->flash(); // store the data from the request (url) in the session
         $roomdetails = Room::find($id);
         $multiImage = MultiImage::where('rooms_id',$id)->get();
         $facility = Facility::where('rooms_id',$id)->get();

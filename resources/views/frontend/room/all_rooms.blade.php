@@ -7,7 +7,7 @@
         <div class="inner-title">
             <ul>
                 <li>
-                    <a href="index.html">Home</a>
+                    <a href="{{ url('/') }}">Home</a>
                 </li>
                 <li><i class='bx bx-chevron-right'></i></li>
                 <li>Rooms</li>
@@ -39,13 +39,7 @@
                             <li class="text-color">${{ $item->price }}</li>
                             <li class="text-color">Per Night</li>
                         </ul>
-                        <div class="rating text-color">
-                            <i class='bx bxs-star'></i>
-                            <i class='bx bxs-star'></i>
-                            <i class='bx bxs-star'></i>
-                            <i class='bx bxs-star'></i>
-                            <i class='bx bxs-star-half'></i>
-                        </div>
+                        
                     </div>
                 </div>
             </div> 

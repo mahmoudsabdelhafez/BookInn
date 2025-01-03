@@ -44,116 +44,130 @@
                                                     @csrf
                                                     <div class="col-md-4">
                                                         <label for="input1" class="form-label">Room Type Name</label>
-                                                        <input type="text" name="roomtype_id" class="form-control"
-                                                            id="input1" value="{{ $editData->type->name }}">
+                                                        <input type="text" name="roomtype_id" class="form-control @error('roomtype_id') is-invalid @enderror" id="input1" value="{{ $editData->type->name }}">
+                                                        @error('roomtype_id')
+                                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                        @enderror
                                                     </div>
+                                                    
                                                     <div class="col-md-4">
                                                         <label for="input2" class="form-label">Total Adult</label>
-                                                        <input type="text" name="total_adult" class="form-control"
-                                                            id="input2" value="{{ $editData->total_adult }}">
+                                                        <input type="text" name="total_adult" class="form-control @error('total_adult') is-invalid @enderror" id="input2" value="{{ $editData->total_adult }}">
+                                                        @error('total_adult')
+                                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                        @enderror
                                                     </div>
+                                                    
                                                     <div class="col-md-4">
                                                         <label for="input2" class="form-label">Total Child</label>
-                                                        <input type="text" name="total_child" class="form-control"
-                                                            id="input2" value="{{ $editData->total_child }}">
+                                                        <input type="text" name="total_child" class="form-control @error('total_child') is-invalid @enderror" id="input2" value="{{ $editData->total_child }}">
+                                                        @error('total_child')
+                                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                        @enderror
                                                     </div>
-
+                                                    
                                                     <div class="col-md-6">
                                                         <label for="input3" class="form-label">Main Image</label>
-                                                        <input name="image" type="file" class="form-control"
-                                                            id="image">
-
-                                                        <img id="showImage"
-                                                            src="{{ !empty($editData->image) ? url('upload/roomimg/' . $editData->image) : url('upload/no_image.jpg') }}"
-                                                            alt="Admin" class="bg-primary" width="70" height='50'>
+                                                        <input name="image" type="file" class="form-control @error('image') is-invalid @enderror" id="image">
+                                                        @error('image')
+                                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                        @enderror
+                                                        <img id="showImage" src="{{ !empty($editData->image) ? url('upload/roomimg/' . $editData->image) : url('upload/no_image.jpg') }}" alt="Admin" class="bg-primary" width="70" height='50'>
                                                     </div>
+                                                    
                                                     <div class="col-md-6">
                                                         <label for="input4" class="form-label">Gallery Image</label>
-                                                        {{-- here the name is an array because we can upload multiple images --}}
-                                                        <input type="file" name="multi_img[]" class="form-control"
-                                                            multiple id="multiImg"
-                                                            accept="image/jpeg, image/jpg, image/gif, image/png">
-                                                        {{-- Show multi images --}}
+                                                        <input type="file" name="multi_img[]" class="form-control @error('multi_img') is-invalid @enderror" multiple id="multiImg" accept="image/jpeg, image/jpg, image/gif, image/png">
+                                                        @error('multi_img')
+                                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                        @enderror
                                                         @foreach ($multiimgs as $item)
-                                                            <img src="{{ !empty($item->multi_img) ? url('upload/roomimg/multi_img/' . $item->multi_img) : url('upload/no_image.jpg') }}"
-                                                                alt="Admin" class="bg-primary" width="60">
-                                                            <a href="{{ route('multi.image.delete', $item->id) }}"><i
-                                                                    class="lni lni-close"></i> </a>
+                                                            <img src="{{ !empty($item->multi_img) ? url('upload/roomimg/multi_img/' . $item->multi_img) : url('upload/no_image.jpg') }}" alt="Admin" class="bg-primary" width="60">
+                                                            <a href="{{ route('multi.image.delete', $item->id) }}"><i class="lni lni-close"></i> </a>
                                                         @endforeach
-
                                                         <div class="row" id="preview_img"></div>
                                                     </div>
-
+                                                    
                                                     <div class="col-md-3">
-                                                        <label for="input1" class="form-label">Room Price </label>
-                                                        <input type="text" name="price" class="form-control"
-                                                            id="input1" value="{{ $editData->price }}">
+                                                        <label for="input1" class="form-label">Room Price</label>
+                                                        <input type="text" name="price" class="form-control @error('price') is-invalid @enderror" id="input1" value="{{ $editData->price }}">
+                                                        @error('price')
+                                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                        @enderror
                                                     </div>
-
+                                                    
                                                     <div class="col-md-3">
-                                                        <label for="input2" class="form-label">Size </label>
-                                                        <input type="text" name="size" class="form-control"
-                                                            id="input2" value="{{ $editData->size }}">
+                                                        <label for="input2" class="form-label">Size</label>
+                                                        <input type="text" name="size" class="form-control @error('size') is-invalid @enderror" id="input2" value="{{ $editData->size }}">
+                                                        @error('size')
+                                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                        @enderror
                                                     </div>
-
+                                                    
                                                     <div class="col-md-3">
                                                         <label for="input2" class="form-label">Discount ( % )</label>
-                                                        <input type="text" name="discount" class="form-control"
-                                                            id="input2" value="{{ $editData->discount }}">
+                                                        <input type="text" name="discount" class="form-control @error('discount') is-invalid @enderror" id="input2" value="{{ $editData->discount }}">
+                                                        @error('discount')
+                                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                        @enderror
                                                     </div>
+                                                    
                                                     <div class="col-md-3">
-                                                        <label for="input2" class="form-label">Room Capacity </label>
-                                                        <input type="text" name="room_capacity" class="form-control"
-                                                            id="input2" value="{{ $editData->room_capacity }}">
+                                                        <label for="input2" class="form-label">Room Capacity</label>
+                                                        <input type="text" name="room_capacity" class="form-control @error('room_capacity') is-invalid @enderror" id="input2" value="{{ $editData->room_capacity }}">
+                                                        @error('room_capacity')
+                                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                        @enderror
                                                     </div>
-
+                                                    
                                                     <div class="col-md-6">
-                                                        <label for="input7" class="form-label">Room View </label>
-                                                        <select name="view" id="input7" class="form-select">
-                                                            <option selected="">Choose...</option>
-                                                            <option value="Sea View"
-                                                                {{ $editData->view == 'Sea View' ? 'selected' : '' }}>Sea View
-                                                            </option>
-                                                            <option value="Hill View"
-                                                                {{ $editData->view == 'Hill View' ? 'selected' : '' }}>Hill
-                                                                View </option>
-
+                                                        <label for="input7" class="form-label">Room View</label>
+                                                        <select name="view" id="input7" class="form-select @error('view') is-invalid @enderror">
+                                                            <option value="">Choose...</option>
+                                                            <option value="Sea View" {{ $editData->view == 'Sea View' ? 'selected' : '' }}>Sea View</option>
+                                                            <option value="Hill View" {{ $editData->view == 'Hill View' ? 'selected' : '' }}>Hill View</option>
                                                         </select>
+                                                        @error('view')
+                                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                        @enderror
                                                     </div>
+                                                    
                                                     <div class="col-md-6">
                                                         <label for="input7" class="form-label">Bed Style</label>
-                                                        <select name="bed_style" id="input7" class="form-select">
+                                                        <select name="bed_style" id="input7" class="form-select @error('bed_style') is-invalid @enderror">
                                                             <option selected="">Choose...</option>
-                                                            <option value="Queen Bed"
-                                                                {{ $editData->bed_style == 'Queen Bed' ? 'selected' : '' }}>
-                                                                Queen Bed </option>
-                                                            <option value="Twin Bed"
-                                                                {{ $editData->bed_style == 'Twin Bed' ? 'selected' : '' }}>Twin
-                                                                Bed </option>
-                                                            <option value="King Bed"
-                                                                {{ $editData->bed_style == 'King Bed' ? 'selected' : '' }}>King
-                                                                Bed </option>
-
+                                                            <option value="Queen Bed" {{ $editData->bed_style == 'Queen Bed' ? 'selected' : '' }}>Queen Bed</option>
+                                                            <option value="Twin Bed" {{ $editData->bed_style == 'Twin Bed' ? 'selected' : '' }}>Twin Bed</option>
+                                                            <option value="King Bed" {{ $editData->bed_style == 'King Bed' ? 'selected' : '' }}>King Bed</option>
                                                         </select>
+                                                        @error('bed_style')
+                                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                        @enderror
                                                     </div>
-
-
-
+                                                    
                                                     <div class="col-md-12">
                                                         <label for="input11" class="form-label">Short Description</label>
-                                                        <textarea name="short_desc" class="form-control" id="input11" rows="3">{{ $editData->short_desc }}</textarea>
+                                                        <textarea name="short_desc" class="form-control @error('short_desc') is-invalid @enderror" id="input11" rows="3">{{ $editData->short_desc }}</textarea>
+                                                        @error('short_desc')
+                                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                        @enderror
                                                     </div>
-                                                    {{-- We will upload an editor --}}
+                                                    
                                                     <div class="col-md-12">
                                                         <label for="input11" class="form-label">Description</label>
-                                                        <textarea name="description" class="form-control" id="myeditorinstance" rows="3">{!! $editData->description !!}</textarea>
+                                                        <textarea name="description" class="form-control @error('description') is-invalid @enderror" id="myeditorinstance" rows="3">{!! $editData->description !!}</textarea>
+                                                        @error('description')
+                                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                        @enderror
                                                     </div>
+                                                    
 
                                                     {{-- =====================Facilities ===================== --}}
 
                                                     <div class="row mt-2">
-                                                        <div class="col-md-12 mb-3">
-                                                            @forelse ($basic_facility as $item)
+                                                        <div class="col-md-12 mb-3"> 
+                                                            {{-- If there is any basic facilities in this room --}}
+                                                            @forelse ($basic_facility as $item) 
                                                                 <div class="basic_facility_section_remove"
                                                                     id="basic_facility_section_remove">
                                                                     <div class="row add_item">
@@ -161,8 +175,8 @@
                                                                             <label for="facility_name" class="form-label">
                                                                                 Room Facilities </label>
                                                                             <select name="facility_name[]"
-                                                                                id="facility_name" class="form-control">
-                                                                                <option value="">Select Facility
+                                                                                id="facility_name" class="form-control @error('facility_name.*') is-invalid @enderror" >
+                                                                                <option value=""  selected>Select Facility
                                                                                 </option>
                                                                                 <option value="Complimentary Breakfast"
                                                                                     {{ $item->facility_name == 'Complimentary Breakfast' ? 'selected' : '' }}>
@@ -215,6 +229,9 @@
                                                                                     {{ $item->facility_name == 'Electronic door lock' ? 'selected' : '' }}>
                                                                                     Electronic door lock</option>
                                                                             </select>
+                                                                            @error('facility_name.*')
+                                                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                                        @enderror
                                                                         </div>
                                                                         <div class="col-md-4">
                                                                             <div class="form-group"
@@ -228,7 +245,7 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-
+                                                                {{-- When there is no basic facilities in this room --}}
                                                             @empty
 
                                                                 <div class="basic_facility_section_remove"
@@ -239,8 +256,8 @@
                                                                                 class="form-label">Room Facilities </label>
                                                                             <select name="facility_name[]"
                                                                                 id="basic_facility_name"
-                                                                                class="form-control">
-                                                                                <option value="">Select Facility
+                                                                                class="form-control @error('facility_name.*') is-invalid @enderror">
+                                                                                <option value=""  selected>Select Facility
                                                                                 </option>
                                                                                 <option value="Complimentary Breakfast">
                                                                                     Complimentary Breakfast</option>
@@ -267,6 +284,9 @@
                                                                                 <option value="Electronic door lock">
                                                                                     Electronic door lock</option>
                                                                             </select>
+                                                                            @error('facility_name.*')
+                                                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                                        @enderror
                                                                         </div>
                                                                         <div class="col-md-6">
                                                                             <div class="form-group"
@@ -312,28 +332,36 @@
                                 <div class="tab-pane fade" id="primaryprofile" role="tabpanel">
                                     <div class="card">
                                         <div class="card-body">
-                                            <a class="card-title btn btn-primary float-right" onclick="addRoomNo()" id="addRoomNo" >
+                                            <a class="card-title btn btn-primary float-right" onclick="addRoomNo()"
+                                                id="addRoomNo">
                                                 <i class="lni lni-plus">Add New</i>
                                             </a>
                                             <div class="roomnoHide" id="roomnoHide">
-                                                <form action="{{ route('store.room.no',$editData->id) }}" method="post">
+                                                <form action="{{ route('store.room.no', $editData->id) }}" method="post">
                                                     @csrf
-                                                    <input type="hidden" name="room_type_id" value="{{ $editData->roomtype_id }}" >
+                                                    <input type="hidden" name="room_type_id"
+                                                        value="{{ $editData->roomtype_id }}">
                                                     <div class="row">
                                                         <div class="col-md-4">
                                                             <label for="input2" class="form-label">Room No </label>
-                                                            <input type="text" name="room_no" class="form-control"
+                                                            <input type="text" name="room_no" class="form-control @error('room_no') is-invalid @enderror"
                                                                 id="input2">
+                                                            @error('room_no')
+                                                                <div class="invalid-feedback">{{ $message }}</div>
+                                                            @enderror
                                                         </div>
 
                                                         <div class="col-md-4">
                                                             <label for="input7" class="form-label">Status </label>
-                                                            <select name="status" id="input7" class="form-select">
+                                                            <select name="status" id="input7" class="form-select @error('status') is-invalid @enderror">
                                                                 <option selected="">Select Status...</option>
                                                                 <option value="Active">Active </option>
                                                                 <option value="Inactive">Inactive </option>
 
                                                             </select>
+                                                            @error('status')
+                                                                <div class="invalid-feedback">{{ $message }}</div>
+                                                            @enderror
                                                         </div>
                                                         <div class="col-md-4">
 
@@ -354,26 +382,28 @@
                                                     <tr>
                                                         <th scope="col">Room Number</th>
                                                         <th scope="col">Status</th>
-                                                        <th scope="col">Action</th> 
+                                                        <th scope="col">Action</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @foreach ($allroomNo as $item) 
-               
-                                                      <tr> 
-                                                    <td>{{ $item->room_no }}</td>
-                                                    <td>{{ $item->status }}</td>
-                                                        <td>
-                                                            <a href="{{ route('edit.roomno',$item->id) }}" class="btn btn-warning px-3 radius-30"> Edit</a>
-                                                            <a href="{{ route('delete.roomno',$item->id) }}" class="btn btn-danger px-3 radius-30" id="delete"> Delete</a>  
-                                                        
-                                                        </td>
-                                                    </tr>
+                                                    @foreach ($allroomNo as $item)
+                                                        <tr>
+                                                            <td>{{ $item->room_no }}</td>
+                                                            <td>{{ $item->status }}</td>
+                                                            <td>
+                                                                <a href="{{ route('edit.roomno', $item->id) }}"
+                                                                    class="btn btn-warning px-3 radius-30"> Edit</a>
+                                                                <a href="{{ route('delete.roomno', $item->id) }}"
+                                                                    class="btn btn-danger px-3 radius-30" id="delete">
+                                                                    Delete</a>
+
+                                                            </td>
+                                                        </tr>
                                                     @endforeach
-                                                    
+
                                                 </tbody>
                                             </table>
-                                    
+
 
 
 
@@ -419,7 +449,7 @@
 
                     $.each(data, function(index, file) { //loop though each file
                         if (/(\.|\/)(gif|jpe?g|png)$/i.test(file
-                            .type)) { //check supported file type
+                                .type)) { //check supported file type
                             var fRead = new FileReader(); //new filereader
                             fRead.onload = (function(file) { //trigger function on successful read
                                 return function(e) {
@@ -427,7 +457,7 @@
                                             e.target.result).width(100)
                                         .height(80); //create image element 
                                     $('#preview_img').append(
-                                    img); //append image to output element
+                                        img); //append image to output element
                                 };
                             })(file);
                             fRead.readAsDataURL(file); //URL representing the file's data.
@@ -449,8 +479,8 @@
                     <div class="row">
                         <div class="form-group col-md-6">
                             <label for="basic_facility_name">Room Facilities</label>
-                            <select name="facility_name[]" id="basic_facility_name" class="form-control">
-                                <option value="">Select Facility</option>
+                            <select name="facility_name[]" id="basic_facility_name" class="form-control @error('facility_name.*') is-invalid @enderror">
+                                <option value=""  selected>Select Facility</option>
                                 <option value="Complimentary Breakfast">Complimentary Breakfast</option>
                                 <option value="32/42 inch LED TV"> 32/42 inch LED TV</option>
                                 <option value="Smoke alarms">Smoke alarms</option>
@@ -465,6 +495,9 @@
                                 <option value="Laundry & Dry Cleaning">Laundry & Dry Cleaning</option>
                                 <option value="Electronic door lock">Electronic door lock</option>
                             </select>
+                            @error('facility_name.*')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                         </div>
                         <div class="form-group col-md-6" style="padding-top: 20px">
                             <span class="btn btn-success addeventmore"><i class="lni lni-circle-plus"></i></span>
@@ -478,29 +511,44 @@
 
     <script type="text/javascript">
         $(document).ready(function() {
+            // Initialize a counter variable to track the number of added sections
             var counter = 0;
+    
+            // Event listener for the "+" button (class: addeventmore)
             $(document).on("click", ".addeventmore", function() {
+                // Fetch the hidden HTML template for a new input section
                 var whole_extra_item_add = $("#whole_extra_item_add").html();
+    
+                // Append the fetched HTML to the closest parent with the class "add_item"
                 $(this).closest(".add_item").append(whole_extra_item_add);
+    
+                // Increment the counter to keep track of added sections
                 counter++;
             });
+    
+            // Event listener for the "-" button (class: removeeventmore)
             $(document).on("click", ".removeeventmore", function(event) {
+                // Remove the closest section with the ID "basic_facility_section_remove"
                 $(this).closest("#basic_facility_section_remove").remove();
-                counter -= 1
+    
+                // Decrement the counter to reflect the removal of a section
+                counter -= 1;
             });
         });
     </script>
+    
     <!--========== End of Basic Plan Facilities ==============-->
 
     <!--========== Start Room Number Add ==============-->
     <script>
         $('#roomnoHide').hide();
         $('#roomview').show();
-        function addRoomNo(){
+
+        function addRoomNo() {
             $('#roomnoHide').show();
             $('#roomview').hide();
             $('#addRoomNo').hide();
         }
     </script>
-   <!--========== End Room Number Add ==============-->
+    <!--========== End Room Number Add ==============-->
 @endsection

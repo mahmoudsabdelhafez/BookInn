@@ -7,11 +7,21 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Room;
+use App\Models\Team;
+use App\Models\BookArea;
+use App\Models\Testimonial;
+use Illuminate\Cache\RateLimiting\Limit;
+
 class UserController extends Controller
 {
     public function Index(){
     $room = Room::latest()->limit(4)->get();
-        return view('frontend.index' , compact('room'));
+    $team = Team::latest()->get();
+    $testimonial = Testimonial::latest()->Limit(3)->get();
+
+    $bookarea = BookArea::find(1);
+
+        return view('frontend.index' , compact('room','team','bookarea','testimonial'));
     }// End Method 
 
 
@@ -24,6 +34,16 @@ class UserController extends Controller
     public function UserStore(Request $request){
 
         $id = Auth::user()->id;
+
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'], // Required, must be a string, max 255 characters
+            'email' => ['required', 'email', 'max:255', 'unique:users,email,' . $id], // Required, must be a valid email, unique except for the current user
+            'phone' => ['required', 'digits_between:10,15'], // Required, must be exactly 10 digits
+            'address' => ['required', 'string', 'max:255'], // Required, must be a string, max 255 characters
+            'photo' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'], // Optional, must be an image, specific formats, max size 2MB
+        ]);
+
+
         $data = User::find($id);
         $data->name = $request->name;
         $data->email = $request->email;
@@ -46,11 +66,13 @@ class UserController extends Controller
 
 
     public function UserLogout(Request $request){ // i copy this implementation from AuthenticatedSessionController (Destroy Method)
+        $id = Auth::user()->id;
+        $data = User::find($id);
         Auth::guard('web')->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         $notification = array(
-            'message' => 'User Logout Successfully',
+            'message' => 'User ' . $data->name . 'Logout Successfully',
             'alert-type' => 'success'
         );
         return redirect('/login')->with($notification);
@@ -64,11 +86,11 @@ class UserController extends Controller
         // Validation 
         $request->validate([
             'old_password' => 'required',
-            'new_password' => 'required|confirmed'
+            'new_password' => 'required|confirmed|min:8'
         ]);
         if(!Hash::check($request->old_password, auth::user()->password)){
             $notification = array(
-                'message' => 'Old Password Does not Match!',
+                'message' => 'Old Password is Incorrect',
                 'alert-type' => 'error'
             );
     
@@ -80,7 +102,7 @@ class UserController extends Controller
         ]);
         
         $notification = array(
-            'message' => 'Password Change Successfully',
+            'message' => 'Password Changed Successfully',
             'alert-type' => 'success'
         );
         return back()->with($notification); 

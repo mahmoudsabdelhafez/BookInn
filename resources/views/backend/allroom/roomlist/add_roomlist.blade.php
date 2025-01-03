@@ -32,28 +32,31 @@
                     @csrf    
                      <div class="col-md-4">
             <label for="roomtype_id" class="form-label">Room Type</label>
-            <select name="room_id" id="room_id" class="form-select">
+            <select required name="room_id" id="room_id" class="form-select">
                 <option selected="">Select Room Type </option>
                 @foreach ($roomtype as $item) 
                 <option value="{{ $item->room->id }}" {{ collect(old('roomtype_id'))->contains($item->id) ? 'selected' : '' }} >{{ $item->name }}</option>
                 @endforeach
             </select>
+            @error('room_id')
+            <div class="text-danger">{{ $message }}</div>
+        @enderror
         </div>
         <div class="col-md-4">
             <label for="input2" class="form-label">Checkin</label>
-     <input type="date" name="check_in" class="form-control" id="check_in"  >
+     <input required type="date" name="check_in" class="form-control" id="check_in"  >
         </div>
 
         <div class="col-md-4">
             <label for="input2" class="form-label">CheckOut</label>
-            <input type="date" name="check_out"  class="form-control" id="check_out" >
+            <input required type="date" name="check_out"  class="form-control" id="check_out" >
         </div>
 
 
 
         <div class="col-md-4">
             <label for="input3" class="form-label">Room</label>
-            <input type="number" name="number_of_rooms" class="form-control" >
+            <input required type="number" name="number_of_rooms" class="form-control" >
 
             <input type="hidden" name="available_room" id="available_room" class="form-control" >
             <div class="mt-2">
@@ -65,19 +68,19 @@
 
         <div class="col-md-4">
             <label for="input4" class="form-label">Guest</label>
-            <input type="text" name="number_of_person" class="form-control" id="number_of_person"  >
+            <input required type="number" name="number_of_person" class="form-control" id="number_of_person"  >
         </div>
 
      <h3 class="mt-3 mb-5 text-center">Customer Information </h3>
 
         <div class="col-md-4">
             <label for="input5" class="form-label">Name</label>
-            <input type="text" name="name" class="form-control" id="input5" value="{{ old('name') }}"  >
+            <input required type="text" name="name" class="form-control" id="input5" value="{{ old('name') }}"  >
         </div>
 
         <div class="col-md-4">
             <label for="input5" class="form-label">Email</label>
-            <input type="email" name="email" class="form-control"   value="{{ old('email') }}"  >
+            <input required type="email" name="email" class="form-control"   value="{{ old('email') }}"  >
         </div>
 
         <div class="col-md-4">
@@ -87,17 +90,17 @@
 
         <div class="col-md-4">
             <label for="input5" class="form-label">Country</label>
-            <input type="text" name="country" class="form-control" value="{{ old('country') }}"  >
+            <input required type="text" name="country" class="form-control" value="{{ old('country') }}"  >
         </div>
 
         <div class="col-md-4">
             <label for="input5" class="form-label">Zip Code</label>
-            <input type="text" name="zip_code" class="form-control" value="{{ old('zip_code') }}"  >
+            <input required type="text" name="zip_code" class="form-control" value="{{ old('zip_code') }}"  >
         </div>
 
         <div class="col-md-4">
             <label for="input5" class="form-label">State</label>
-            <input type="text" name="state" class="form-control" value="{{ old('state') }}"  >
+            <input required type="text" name="state" class="form-control" value="{{ old('state') }}"  >
         </div>
          
        

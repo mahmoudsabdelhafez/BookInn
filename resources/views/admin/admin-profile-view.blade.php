@@ -6,30 +6,15 @@
     <div class="page-content">
         <!--breadcrumb-->
         <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-            <div class="breadcrumb-title pe-3">User Profile</div>
+            <div class="breadcrumb-title pe-3">Admin Profile</div>
             <div class="ps-3">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb mb-0 p-0">
                         <li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
                         </li>
-                        <li class="breadcrumb-item active" aria-current="page">User Profilep</li>
+                        <li class="breadcrumb-item active" aria-current="page">Admin Profile</li>
                     </ol>
                 </nav>
-            </div>
-            <div class="ms-auto">
-                
-                <div class="btn-group">
-                    <button type="button" class="btn btn-primary">Settings</button>
-                    <button type="button" class="btn btn-primary split-bg-primary dropdown-toggle dropdown-toggle-split"
-                        data-bs-toggle="dropdown"> <span class="visually-hidden">Toggle Dropdown</span>
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-end"> <a class="dropdown-item"
-                            href="javascript:;">Action</a>
-                        <a class="dropdown-item" href="javascript:;">Another action</a>
-                        <a class="dropdown-item" href="javascript:;">Something else here</a>
-                        <div class="dropdown-divider"></div> <a class="dropdown-item" href="javascript:;">Separated link</a>
-                    </div>
-                </div>
             </div>
         </div>
         
@@ -50,32 +35,8 @@
 
                                     </div>
                                 </div>
-                                <hr class="my-4" />
-                                <ul class="list-group list-group-flush">
-
-                                    <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                        <h6 class="mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="24"
-                                                height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                class="feather feather-instagram me-2 icon-inline text-danger">
-                                                <rect x="2" y="2" width="20" height="20" rx="5"
-                                                    ry="5"></rect>
-                                                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                                                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-                                            </svg>Instagram</h6>
-                                        <span class="text-secondary">codervent</span>
-                                    </li>
-                                    <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                        <h6 class="mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="24"
-                                                height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                class="feather feather-facebook me-2 icon-inline text-primary">
-                                                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z">
-                                                </path>
-                                            </svg>Facebook</h6>
-                                        <span class="text-secondary">codervent</span>
-                                    </li>
-                                </ul>
+                                
+                                
                             </div>
                         </div>
                     </div>
@@ -93,6 +54,9 @@
                                     <div class="col-sm-9 text-secondary">
                                         <input type="text" name="name" class="form-control"
                                             value="{{ $profileData->name }}" />
+                                            @if ($errors->has('name'))
+                                            <span class="text-danger">{{ $errors->first('name') }}</span>
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="row mb-3">
@@ -102,6 +66,9 @@
                                     <div class="col-sm-9 text-secondary">
                                         <input type="email" name="email" class="form-control"
                                             value="{{ $profileData->email }}" />
+                                            @if ($errors->has('email'))
+                                            <span class="text-danger">{{ $errors->first('email') }}</span>
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="row mb-3">
@@ -111,6 +78,9 @@
                                     <div class="col-sm-9 text-secondary">
                                         <input type="text" name ="phone" class="form-control"
                                             value="{{ $profileData->phone }}" />
+                                            @if ($errors->has('phone'))
+                                            <span class="text-danger">{{ $errors->first('phone') }}</span>
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="row mb-3">
@@ -120,6 +90,9 @@
                                     <div class="col-sm-9 text-secondary">
                                         <input type="text" name="address" class="form-control"
                                             value="{{ $profileData->address }}" />
+                                            @if ($errors->has('address'))
+                                            <span class="text-danger">{{ $errors->first('address') }}</span>
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="row mb-3">
@@ -128,6 +101,9 @@
                                     </div>
                                     <div class="col-sm-9 text-secondary">
                                         <input  type="file" class="form-control"  name="photo" id="image">
+                                        @if ($errors->has('photo'))
+                                        <span class="text-danger">{{ $errors->first('photo') }}</span>
+                                    @endif
                                     </div>
                                 </div>
 
@@ -165,9 +141,9 @@
     <script type="text/javascript">
     $(document).ready(function() {
         $('#image').change(function(e) {
-            var reader = new FileReader();
+            var reader = new FileReader(); //The FileReader object is used to read files stored on the user's computer
             reader.onload = function(e) {
-                $('#showImage').attr('src', e.target.result);
+                $('#showImage').attr('src', e.target.result); // This changes the src (source) attribute of the img element to the data URL of the newly selected image (e.target.result).
             }
             reader.readAsDataURL(e.target.files['0']);
         })

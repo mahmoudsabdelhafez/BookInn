@@ -242,16 +242,16 @@
 		$('.accordion-title').not($(this)).removeClass('active');		
     });
 
-    // Datetimepicker
+    // Datetimepicker ===============================================================
     $('#datetimepicker').datepicker();
 
     $('.dt_picker').datepicker({
         dateFormat: 'yy-mm-dd',
-        autoclose: true,
-        minDate: 0
+        autoclose: true, // Closes the date picker after a date is selected.
+        minDate: 0 // Disallows selecting dates before today.
     });
     $("#startdate").datepicker({
-        todayBtn:  1,
+        todayBtn:  1, //Highlights the current date in the picker.
         startDate: new Date(),
         format: 'yyyy-mm-dd' ,
         autoclose: true,
@@ -270,6 +270,7 @@
     }).on('changeDate', function (selected) {
         console.log('ok')
     });
+    // Datetimepicker ===============================================================
 
     // WOW JS
     new WOW().init();

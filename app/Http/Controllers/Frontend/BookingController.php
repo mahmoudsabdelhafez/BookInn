@@ -23,6 +23,8 @@ use App\Notifications\BookingComplete;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Mail; // for email
 use App\Mail\BookConfirm; // for email
+use Barryvdh\DomPDF\Facade\Pdf;
+
 
 
 
@@ -56,6 +58,24 @@ class BookingController extends Controller
             'person' => 'required',
             'number_of_rooms' => 'required',
         ]);
+
+         // Check if check_in or check_out is empty
+        //  if (trim($request->check_in) === '' || trim($request->check_out) === '') {
+        //     $notification = array(
+        //         'message' => 'Please Select Check In and Check Out Date!',
+        //         'alert-type' => 'error'
+        //     );
+        //     return redirect()->back()->with($notification);
+        // }
+        
+       
+        if($request->check_in == $request->check_out){
+            $notification = array(
+                'message' => 'Check In and Check Out Date is same!',
+                'alert-type' => 'error'
+            );
+            return redirect()->back()->with($notification);
+        }
         if ($request->available_room < $request->number_of_rooms) {
            
             $notification = array(
@@ -86,14 +106,15 @@ class BookingController extends Controller
 
 
         $this->validate($request,[
-            'name' => 'required',
-            'email' => 'required',
-            'country' => 'required',
-            'phone' => 'required',
-            'address' => 'required',
-            'state' => 'required',
-            'zip_code' => 'required',
-            'payment_method' => 'required', 
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'country' => 'required|string|max:255',
+            'phone' => 'nullable|numeric|digits_between:10,15',
+            'address' => 'required|string|max:500',
+            'state' => 'required|string|max:255',
+            'zip_code' => 'required|numeric|digits_between:4,10',
+            'payment_method' => 'required',
+ 
         ]);
 
            $book_data = Session::get('book_date'); 
@@ -216,22 +237,25 @@ class BookingController extends Controller
         $booking = Booking::find($id);
         $booking->payment_status = $request->payment_status;
         $booking->status = $request->status;
+        $booking->subtotal = $booking->actual_price * $booking->number_of_rooms * $booking->total_night;
+        $booking->total_price = $booking->subtotal - $booking->discount;
         $booking->save();
 
-        //Start Sending Mail
-        // $sendmail = Booking::find($id);
-        // $data = [
-        //     'check_in' => $sendmail->check_in,
-        //     'check_out' => $sendmail->check_out,
-        //     'name' => $sendmail->name,
-        //     'email' => $sendmail->email,
-        //     'phone' => $sendmail->phone,
-        // ];
-       
-        
 
-        // Mail::to($sendmail->email)->send(new BookConfirm($data));
-        //End Sending Mail
+         /// Start Sent Email ============================================================
+
+         $sendmail = Booking::find($id);
+         $data = [
+             'check_in' => $sendmail->check_in,
+             'check_out' => $sendmail->check_out,
+             'name' => $sendmail->name,
+             'email' => $sendmail->email,
+             'phone' => $sendmail->phone,
+         ];
+         Mail::to($sendmail->email)->send(new BookConfirm($data));
+         /// End Sent Email ===========================================================
+
+
         $notification = array(
             'message' => 'Information Updated Successfully',
             'alert-type' => 'success'
@@ -247,7 +271,7 @@ class BookingController extends Controller
         if ($request->available_room < $request->number_of_rooms) {
 
             $notification = array(
-                'message' => 'Something Want To Wrong!',
+                'message' => 'No enough room available',
                 'alert-type' => 'error'
             ); 
             return redirect()->back()->with($notification);  
@@ -257,9 +281,15 @@ class BookingController extends Controller
         $data->number_of_rooms = $request->number_of_rooms;
         $data->check_in = date('Y-m-d', strtotime($request->check_in));
         $data->check_out = date('Y-m-d', strtotime($request->check_out));
+        $toDate = Carbon::parse($data->check_in);
+        $fromDate = Carbon::parse($data->check_out);
+        $total_night = $toDate->diffInDays($fromDate);
+        $data->total_night = $total_night;
+        $data->subtotal = $data->actual_price * $data->number_of_rooms * $data->total_night;
+        $data->total_price = $data->subtotal - $data->discount;
         $data->save();
 
-        RoomBookedDate::where('booking_id', $id)->delete();
+        RoomBookedDate::where('booking_id', $id)->delete(); // delete old dates
 
         $sdate = date('Y-m-d',strtotime($request->check_in ));
         $edate = date('Y-m-d',strtotime($request->check_out));
@@ -282,23 +312,54 @@ class BookingController extends Controller
      }  // End Method 
      
 
-     public function AssignRoom($booking_id){
-        $booking = Booking::find($booking_id);
-        $booking_date_array = RoomBookedDate::where('booking_id',$booking_id)->pluck('book_date')->toArray(); // return array od booking dates
-        $check_date_booking_ids = RoomBookedDate::whereIn('book_date',$booking_date_array)->where('room_id',$booking->rooms_id)->distinct()->pluck('booking_id')->toArray(); // return the dates that this room was booked
-        
-        $booking_ids = Booking::whereIn('id',$check_date_booking_ids)->pluck('id')->toArray(); // get the booking ids for this room
-        $assign_room_ids = BookingRoomList::whereIn('booking_id',$booking_ids)->pluck('room_number_id')->toArray();
-        $room_numbers = RoomNumber::where('rooms_id',$booking->rooms_id)->whereNotIn('id',$assign_room_ids)->where('status','Active')->get(); // get all room numbers that this room has
-        return view('backend.booking.assign_room',compact('booking','room_numbers'));
-        
+     public function AssignRoom($booking_id)
+{
+    // Fetch the booking details based on the provided booking ID
+    $booking = Booking::find($booking_id);
 
-     } // End Method 
+    // Step 1: Retrieve all dates associated with the current booking
+    // These dates indicate when the booking spans.
+    $booking_date_array = RoomBookedDate::where('booking_id', $booking_id)
+        ->pluck('book_date')
+        ->toArray();
+
+    // Step 2: Identify all other bookings that overlap with these dates
+    // This filters bookings for the same room type (rooms_id) that have any conflicting dates.
+    $check_date_booking_ids = RoomBookedDate::whereIn('book_date', $booking_date_array)
+        ->where('room_id', $booking->rooms_id)
+        ->distinct() // Ensures unique booking IDs
+        ->pluck('booking_id')
+        ->toArray();
+
+    // Step 3: Get the list of bookings that are for the same room type and overlap in dates
+    $booking_ids = Booking::whereIn('id', $check_date_booking_ids)
+        ->pluck('id')
+        ->toArray();
+
+    // Step 4: Fetch the room numbers already assigned to these bookings
+    // This helps exclude room numbers that are unavailable for the current booking.
+    $assign_room_ids = BookingRoomList::whereIn('booking_id', $booking_ids)
+        ->pluck('room_number_id')
+        ->toArray();
+
+    // Step 5: Retrieve all active room numbers for the current booking's room type
+    // Exclude room numbers that are already assigned to overlapping bookings.
+    $room_numbers = RoomNumber::where('rooms_id', $booking->rooms_id)
+        ->whereNotIn('id', $assign_room_ids) // Exclude already assigned rooms
+        ->where('status', 'Active') // Ensure only active rooms are retrieved
+        ->get();
+
+    // Return the 'assign_room' view with the booking and available room numbers data
+    return view('backend.booking.assign_room', compact('booking', 'room_numbers'));
+}// End Method
+
 
 
      public function AssignRoomStore($booking_id,$room_number_id){
         $booking = Booking::find($booking_id);
         $check_data = BookingRoomList::where('booking_id',$booking_id)->count();
+    // Check if the number of assigned rooms is less than the required number of rooms
+    // This ensures that we don't assign more rooms than needed.
         if ($check_data < $booking->number_of_rooms) {
             $assign_data = new BookingRoomList();
             $assign_data->booking_id = $booking_id;
@@ -306,13 +367,13 @@ class BookingController extends Controller
             $assign_data->room_number_id = $room_number_id;
             $assign_data->save();
             $notification = array(
-             'message' => 'Room Assign Successfully',
+             'message' => 'Room Assigned Successfully',
              'alert-type' => 'success'
          ); 
          return redirect()->back()->with($notification);   
          }else {
              $notification = array(
-                 'message' => 'Room Already Assign',
+                 'message' => 'Room Already Assigned',
                  'alert-type' => 'error'
              ); 
              return redirect()->back()->with($notification);   
@@ -339,6 +400,24 @@ class BookingController extends Controller
             $notification->markAsRead();
         }
   return response()->json(['count' => $user->unreadNotifications()->count()]);
+     }// End Method 
+
+
+
+     public function UserBooking(){
+        $id = Auth::user()->id;
+        $allData = Booking::where('user_id',$id)->orderBy('id','desc')->get();
+        return view('frontend.dashboard.user_booking',compact('allData'));
+     }// End Method 
+
+
+     public function UserInvoice($id){
+        $editData = Booking::with('room')->find($id);
+        $pdf = Pdf::loadView('backend.booking.booking_invoice',compact('editData'))->setPaper('a4')->setOption([
+            'tempDir' => public_path(),
+            'chroot' => public_path(),
+        ]);
+        return $pdf->download('invoice.pdf');
      }// End Method 
 
 

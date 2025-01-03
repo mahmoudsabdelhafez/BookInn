@@ -17,7 +17,7 @@ class RoomNumber extends Model
 
     public function last_booking(){
         return $this->hasOne(BookingRoomList::class, 'room_number_id')->latest();
-    }
+    } // one to one
 
 
 }

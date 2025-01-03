@@ -24,43 +24,13 @@ use Illuminate\Support\Facades\Route;
 
 
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
-
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-// Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login');
-
-// Load The main page of the website
-
-// Route::middleware('guest')->group(function () {
-//     Route::get('/login', [AuthenticatedSessionController::class, 'create'])
-//         ->name('login');
-//         Route::post('/login', [AuthenticatedSessionController::class, 'store']);
-
-//     Route::get('/register', [RegisteredUserController::class, 'create'])
-//         ->name('register');
-//     Route::post('/register', [RegisteredUserController::class, 'store']);
-//     });
-
+// Home Page
 Route::get('/',[UserController::class, 'index']);
 
-
-// User Dashboard, user must be logged in
+// User Dashboard
 Route::get('/dashboard', function () {
     return view('frontend.dashboard.user_dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
-
-
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [UserController::class, 'UserProfile'])->name('user.profile');
@@ -69,17 +39,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/user/change/password', [UserController::class, 'UserChangePassword'])->name('user.change.password');
     Route::post('/password/change/password', [UserController::class, 'ChangePasswordStore'])->name('password.change.store');
 
-
 });
 
 require __DIR__.'/auth.php'; // to include the auth routes routes/auth.php (built in by breeze)
 
 
-
-
-
-
 //====================================================================================================
+
 
 // Admin Group Middleware
 Route::middleware(['auth', 'roles:admin'])->group(function () {
@@ -342,6 +308,9 @@ Route::controller(BookingController::class)->group(function(){
    Route::post('/checkout/store/', 'CheckoutStore')->name('checkout.store'); // store checkout data on booking and booked_dates tables
    Route::match(['get', 'post'],'/stripe_pay', [BookingController::class, 'stripe_pay'])->name('stripe_pay');
 
+// User Booking Route
+   Route::get('/user/booking', 'UserBooking')->name('user.booking');
+   Route::get('/user/invoice/{id}', 'UserInvoice')->name('user.invoice');
 
 
     

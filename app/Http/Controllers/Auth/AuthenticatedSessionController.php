@@ -27,28 +27,43 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
-        $request->authenticate();
-
-        $request->session()->regenerate();
-
-//=================== Start Logged In Notification with user name ===================
-$id = Auth::user()->id;
-        $profileData = User::find($id);
-        $username = $profileData->name;
-        $notification = array(
-            'message' => 'User '.$username.' Login Successfully',
-            'alert-type' => 'info'
-        );
-//=================== End Logged In Notification with user name =====================
-
-        $url ='';
-        if($request->user()->role === 'admin'){
-            $url = '/admin/dashboard';
-        } elseif($request->user()->role === 'user'){
-            $url = '/dashboard';
+        try {
+            // Attempt to authenticate the user
+            $request->authenticate();
+    
+            // Regenerate session on successful login
+            $request->session()->regenerate();
+    
+            //=================== Start Logged In Notification with user name ===================
+            $id = Auth::user()->id;
+            $profileData = User::find($id);
+            $username = $profileData->name;
+            $notification = array(
+                'message' => 'User '.$username.' Login Successfully',
+                'alert-type' => 'success'
+            );
+            //=================== End Logged In Notification with user name =====================
+    
+            // Redirect based on user role
+            $url = '';
+            if ($request->user()->role === 'admin') {
+                $url = '/admin/dashboard';
+            } elseif ($request->user()->role === 'user') {
+                $url = '/dashboard';
+            }
+            return redirect()->intended($url)->with($notification);
+    
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            // If authentication fails, show an error notification
+            $notification = array(
+                'message' => 'Invalid login credentials. Please try again.',
+                'alert-type' => 'error'
+            );
+    
+            return redirect()->back()->with($notification);
         }
-        return redirect()->intended($url)->with($notification);
     }
+    
 
     /**
      * Destroy an authenticated session.

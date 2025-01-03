@@ -10,7 +10,7 @@
             <div class="ps-3">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb mb-0 p-0">
-                        <li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
+                        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}"><i class="bx bx-home-alt"></i></a>
                         </li>
                         <li class="breadcrumb-item active" aria-current="page">Update Book Area</li>
                     </ol>
@@ -25,8 +25,8 @@
                    
                     <div class="col-lg-8">
                         <div class="card">
-                            {{-- We create this form to update book area data in db. --}}
-                            <form   action="{{ route('book.area.update') }}" method="post" enctype="multipart/form-data">                                {{-- enctype needed to update the img on db --}}
+                         
+                            <form   action="{{ route('book.area.update') }}" method="post" enctype="multipart/form-data">   
                                 @csrf
                                 <input type="hidden" name="id" value="{{$book->id}}">{{-- we need hidden input to pass the only one book id to controller through the post request --}}
 
@@ -35,7 +35,7 @@
                                     <div class="col-sm-3">
                                         <h6 class="mb-0">Short Title</h6>
                                     </div>
-                                    <div class=" form-group col-sm-9 text-secondary"> {{-- here we add form-group to class to enable valisation script --}}
+                                    <div class=" form-group col-sm-9 text-secondary"> 
 
                                         <input  type="text" name="short_title" class="form-control" value="{{$book->short_title}}">
                                     </div>

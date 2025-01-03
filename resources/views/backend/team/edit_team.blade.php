@@ -37,7 +37,10 @@
                                         <h6 class="mb-0">Name</h6>
                                     </div>
                                     <div class="col-sm-9 text-secondary">
-                                        <input type="text" name="name" class="form-control" value={{ $team->name}}>
+                                        <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" value={{ $team->name}}>
+                                        @error('name')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
                                     </div>
                                 </div>
                                 <div class="row mb-3">
@@ -45,7 +48,10 @@
                                         <h6 class="mb-0">Position</h6>
                                     </div>
                                     <div class="col-sm-9 text-secondary">
-                                        <input type="text" name="position" class="form-control" value={{ $team->position}} >
+                                        <input type="text" name="position" class="form-control @error('position') is-invalid @enderror" value={{ $team->position}} >
+                                        @error('position')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
                                     </div>
                                 </div>
                                 <div class="row mb-3">
@@ -53,7 +59,10 @@
                                         <h6 class="mb-0">Facebook</h6>
                                     </div>
                                     <div class="col-sm-9 text-secondary">
-                                        <input type="text" name ="facebook" class="form-control" value={{ $team->facebook}} >
+                                        <input type="text" name ="facebook" class="form-control @error('facebook') is-invalid @enderror" value={{ $team->facebook}} >
+                                        @error('facebook')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
                                     </div>
                                 </div>
                                 <div class="row mb-3">
@@ -61,7 +70,10 @@
                                         <h6 class="mb-0">Instagram</h6>
                                     </div>
                                     <div class="col-sm-9 text-secondary">
-                                        <input type="text" name ="instagram" class="form-control" value={{ $team->instagram}} >
+                                        <input type="text" name ="instagram" class="form-control @error('instagram') is-invalid @enderror" value={{ $team->instagram}} >
+                                        @error('instagram')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
                                     </div>
                                 </div>
                                 <div class="row mb-3">
@@ -69,7 +81,10 @@
                                         <h6 class="mb-0">Twitter</h6>
                                     </div>
                                     <div class="col-sm-9 text-secondary">
-                                        <input type="text" name ="twitter" class="form-control" value={{ $team->twitter}} >
+                                        <input type="text" name ="twitter" class="form-control @error('twitter') is-invalid @enderror" value={{ $team->twitter}} >
+                                        @error('twitter')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
                                     </div>
                                 </div>
                              
@@ -78,7 +93,10 @@
                                         <h6 class="mb-0">Photo</h6>
                                     </div>
                                     <div class="col-sm-9 text-secondary">
-                                        <input  type="file" class="form-control"  name="image" id="image">
+                                        <input  type="file" class="form-control @error('image') is-invalid @enderror"  name="image" id="image">
+                                        @error('image')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
                                     </div>
                                 </div>
 

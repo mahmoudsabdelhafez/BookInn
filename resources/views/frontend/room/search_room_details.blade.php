@@ -38,7 +38,7 @@
             <div class="form-group">
                 <label>Check in</label>
                 <div class="input-group">
-    <input autocomplete="off"  type="text" required name="check_in" id="check_in"  class="form-control dt_picker" value="{{ old('check_in') ? date('Y-m-d', strtotime(old('check_in'))) : '' }}" >
+    <input autocomplete="off" readonly type="text" required name="check_in" id="check_in"  class="form-control dt_picker" value="{{ old('check_in') ? date('Y-m-d', strtotime(old('check_in'))) : '' }}" >
                     <span class="input-group-addon"></span>
                 </div>
                 <i class='bx bxs-calendar'></i>
@@ -49,7 +49,7 @@
             <div class="form-group">
                 <label>Check Out</label>
                 <div class="input-group">
-   <input autocomplete="off"  type="text" required name="check_out" id="check_out"  class="form-control dt_picker" value="{{ old('check_out') ? date('Y-m-d', strtotime(old('check_out'))) : '' }}" >
+   <input autocomplete="off" readonly type="text" required name="check_out" id="check_out"  class="form-control dt_picker" value="{{ old('check_out') ? date('Y-m-d', strtotime(old('check_out'))) : '' }}" >
                     <span class="input-group-addon"></span>
                 </div>
                 <i class='bx bxs-calendar'></i>
@@ -92,17 +92,17 @@
     <tbody>
         <tr> 
         <td><p> SubTotal</p></td>
-        <td style="text-align: right" ><span class="t_subtotal">0</span> </td> 
+        <td style="text-align: right" >$<span class="t_subtotal">0</span> </td> 
         </tr>
 
         <tr> 
         <td><p> Discount</p></td>
-        <td style="text-align: right" ><span class="t_discount">0</span></td> 
+        <td style="text-align: right" >$<span class="t_discount">0</span></td> 
         </tr>
 
         <tr> 
         <td><p> Total</p></td>
-        <td style="text-align: right" ><span class="t_g_total">0</span></td> 
+        <td style="text-align: right" >$<span class="t_g_total">0</span></td> 
         </tr>
         
     </tbody>
@@ -231,32 +231,7 @@
 
                     </div>
 
-                    <div class="room-details-review">
-                        <h2>Clients Review and Retting's</h2>
-                        <div class="review-ratting">
-                            <h3>Your retting: </h3>
-                            <i class='bx bx-star'></i>
-                            <i class='bx bx-star'></i>
-                            <i class='bx bx-star'></i>
-                            <i class='bx bx-star'></i>
-                            <i class='bx bx-star'></i>
-                        </div>
-                        <form >
-                            <div class="row">
-                                <div class="col-lg-12 col-md-12">
-                                    <div class="form-group">
-                                        <textarea name="message" class="form-control"  cols="30" rows="8" required data-error="Write your message" placeholder="Write your review here.... "></textarea>
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-12 col-md-12">
-                                    <button type="submit" class="default-btn btn-bg-three">
-                                        Submit Review
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
+                  
                 </div>
             </div>
         </div>
@@ -309,7 +284,7 @@
         <li><i class='bx bxs-hotel'></i> {{ $item->bed_style }}</li>
                                 </ul>
                                 
-                                <a href="room-details.html" class="book-more-btn">
+                                <a href="{{ url('room/details/'.$item->id) }}" class="book-more-btn">
                                     Book Now
                                 </a>
                             </div>
@@ -390,10 +365,10 @@
     $("#bk_form").on('submit', function () {
        var av_room = $("#available_room").val();
        var select_room = $("#select_room").val();
-       if (parseInt(select_room) >  av_room){
-          alert('Sorry, you select maximum number of room');
-          return false;
-       }
+    //    if (parseInt(select_room) >  av_room){
+    //       alert('Sorry, you select maximum number of room');
+    //       return false;
+    //    }
        var nmbr_person = $("#nmbr_person").val();
        var total_adult = $("#total_adult").val();
        if(parseInt(nmbr_person) > parseInt(total_adult)){

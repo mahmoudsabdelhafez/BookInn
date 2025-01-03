@@ -53,9 +53,9 @@
         <td align="right">
             <pre class="font" >
                BookInn Head Office
-               Email:support@easylearningbd.com <br>
-               Mob: 1245454545 <br>
-               Dhaka 1207,Dhanmondi:#4 <br>
+               Email:support@bookinn.com <br>
+               Mob: 077777777777 <br>
+               Dubai, United Arab Emirates <br>
               
             </pre>
         </td>

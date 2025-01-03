@@ -10,10 +10,6 @@
                 <div class="language-list">
                     <select class="language-list-item">
                         <option>English</option>
-                        <option>العربيّة</option>
-                        <option>Deutsch</option>
-                        <option>Português</option>
-                        <option>简体中文</option>
                     </select>	
                 </div>
             </div>

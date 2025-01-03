@@ -32,7 +32,12 @@
                         <h6 class="mb-0">Room Number </h6>
                     </div>
                     <div class="col-sm-9 text-secondary">
-                        <input type="text" name="room_no" class="form-control" value="{{ $editroomno->room_no }}"  />
+                        <input type="text" name="room_no" class="form-control @error('room_no') is-invalid @enderror" value="{{ $editroomno->room_no }}"  />
+                        @error('room_no')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
                     </div>
                 </div>
                 <div class="row mb-3">
@@ -40,11 +45,16 @@
                         <h6 class="mb-0">Room Status </h6>
                     </div>
                     <div class="col-sm-9 text-secondary">
-                        <select name="status" id="input7" class="form-select">
+                        <select name="status" id="input7" class="form-select @error('status') is-invalid @enderror">
                             <option selected="">Select Status..</option>
                             <option value="Active" {{ $editroomno->status == 'Active'?'selected':''}}> Active </option>
                             <option value="Inactive" {{ $editroomno->status == 'Inactive'?'selected':''}}>Inactive </option> 
                         </select>
+                        @error('status')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
                     </div>
                 </div>
             

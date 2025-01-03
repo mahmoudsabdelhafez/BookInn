@@ -47,6 +47,9 @@
                                                 <option value="France">France</option>
                                                 <option value="Japan">Japan</option>
                                             </select>
+                                            @if ($errors->has('country'))
+                                            <div class="text-danger">{{ $errors->first('zip_code') }}</div>
+                                        @endif
                                         </div>
                                     </div>
                                 </div>
@@ -56,6 +59,9 @@
                                         <label> Name <span class="required">*</span></label>
                                         <input type="text" name="name" class="form-control"
                                             value="{{ \Auth::user()->name }}">
+                                            @if ($errors->has('name'))
+                                            <div class="text-danger">{{ $errors->first('name') }}</div>
+                                        @endif
                                     </div>
                                 </div>
 
@@ -64,6 +70,9 @@
                                         <label>Email <span class="required">*</span></label>
                                         <input type="email" name="email" class="form-control"
                                             value="{{ \Auth::user()->email }}">
+                                            @if ($errors->has('email'))
+                                            <div class="text-danger">{{ $errors->first('email') }}</div>
+                                        @endif
                                     </div>
                                 </div>
 
@@ -72,6 +81,9 @@
                                         <label>Phone</label>
                                         <input type="text" name="phone" class="form-control"
                                             value="{{ \Auth::user()->phone }}">
+                                            @if ($errors->has('phone'))
+                                            <div class="text-danger">{{ $errors->first('phone') }}</div>
+                                        @endif
                                     </div>
                                 </div>
 
@@ -80,6 +92,9 @@
                                         <label>Address <span class="required">*</span></label>
                                         <input type="text" name="address" class="form-control"
                                             value="{{ \Auth::user()->address }}">
+                                            @if ($errors->has('address'))
+                                            <div class="text-danger">{{ $errors->first('address') }}</div>
+                                        @endif
                                     </div>
                                 </div>
 
@@ -126,7 +141,7 @@
                                         <div style="padding-left: 10px;">
                                             <a href=" "
                                                 style="font-size: 20px; color: #595959;font-weight: bold">{{ @$room->type->name }}</a>
-                                            <p><b>{{ $room->price }} / Night</b></p>
+                                            <p><b style="color: #B56952" >${{ $room->price }}  / Night</b></p>
                                         </div>
 
                                     </div>
@@ -141,11 +156,11 @@
 
                                         <tr>
                                             <td>
-                                                <p>Total Night <br> <b> ( {{ $book_data['check_in'] }} -
+                                                <p>Total Nights <br> <b> ( {{ $book_data['check_in'] }} -
                                                         {{ $book_data['check_out'] }})</b></p>
                                             </td>
                                             <td style="text-align: right">
-                                                <p> {{ $nights }} Days</p>
+                                                <p> {{ $nights }} Night</p>
                                             </td>
                                         </tr>
                                         <tr>

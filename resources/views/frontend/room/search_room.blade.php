@@ -33,7 +33,7 @@
            @php
                $bookings = App\Models\Booking::withCount('assign_rooms')->whereIn('id',$check_date_booking_ids)->where('rooms_id',$item->id)->get()->toArray();
 
-            $total_book_room = array_sum(array_column($bookings,'assign_rooms_count'));
+            $total_book_room = array_sum(array_column($bookings,'assign_rooms_count')); // This line calculates the total number of rooms booked across all the bookings in the $bookings array by summing the assign_rooms_count values.
 
             $av_room = @$item->room_numbers_count-$total_book_room;
 
@@ -50,6 +50,7 @@
                     </a>
                     <div class="content">
                         <h6>
+                            {{-- I send data in url to get them in search_room_details page (that's considered a request) ,, i use url cuz i dont have input fields here ,,, i can use hidden fields instead  --}}
   <a href="{{ route('search_room_details',$item->id.'?check_in='.old('check_in').'&check_out='.old('check_out').'&person='.old('person'))}}">{{ $item['type']['name'] }}</a></h6>
                         <ul>
                             <li class="text-color">${{ $item->price }}</li>

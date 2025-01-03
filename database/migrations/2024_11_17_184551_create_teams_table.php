@@ -16,9 +16,9 @@ return new class extends Migration
             $table->string('image');
             $table->string('name');
             $table->string('position');
-            $table->string('facebook');
-            $table->string('twitter');
-            $table->string('instagram');
+            $table->string('facebook')->nullable();
+            $table->string('twitter')->nullable();
+            $table->string('instagram')->nullable();
             $table->timestamps();
         });
     }

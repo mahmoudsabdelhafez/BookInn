@@ -50,6 +50,9 @@
             <div class="form-group">
                 <label>Name <span class="required">*</span></label>
                 <input type="text" name="name"  class="form-control" value="{{ $profileData->name }}">
+                @if ($errors->has('name'))
+                <span class="text-danger">{{ $errors->first('name') }}</span>
+            @endif
             </div>
         </div>
 
@@ -57,6 +60,9 @@
             <div class="form-group">
                 <label>Email <span class="required">*</span></label>
                 <input type="email" name="email" class="form-control" value="{{ $profileData->email }}">
+                @if ($errors->has('email'))
+                <span class="text-danger">{{ $errors->first('email') }}</span>
+            @endif
             </div>
         </div>
 
@@ -65,6 +71,9 @@
             <div class="form-group">
                 <label> Address <span class="required">*</span></label>
                 <input type="text" name="address" class="form-control" value="{{ $profileData->address }}">
+                @if ($errors->has('address'))
+                <span class="text-danger">{{ $errors->first('address') }}</span>
+            @endif
             </div>
         </div>
 
@@ -72,6 +81,9 @@
             <div class="form-group">
                 <label>Phone <span class="required">*</span></label>
                 <input type="text" name="phone" class="form-control" value="{{ $profileData->phone }}">
+                @if ($errors->has('phone'))
+        <span class="text-danger">{{ $errors->first('phone') }}</span>
+    @endif
             </div>
         </div>
 
@@ -79,8 +91,11 @@
 
 <div class="col-lg-12 col-md-6">
 <div class="form-group">
-    <label>User Profile  <span class="required">*</span></label>
+    <label>Photo<span class="required"></span></label>
     <input type="file" name="photo" class="form-control"  id="image">
+    @if ($errors->has('photo'))
+        <span class="text-danger">{{ $errors->first('photo') }}</span>
+    @endif
 </div>
 </div>
 
