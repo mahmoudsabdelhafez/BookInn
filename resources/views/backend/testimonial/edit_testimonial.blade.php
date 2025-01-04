@@ -37,6 +37,9 @@
                     </div>
                     <div class="form-group col-sm-9 text-secondary">
                         <input type="text" name="name" class="form-control" value="{{ $testimonial->name }}" />
+                        @error('name')
+                <small class="text-danger">{{ $message }}</small>
+                @enderror
                     </div>
                 </div>
                 <div class="row mb-3">
@@ -45,6 +48,9 @@
                     </div>
                     <div class="form-group col-sm-9 text-secondary">
                         <input type="text" name="city"  class="form-control" value="{{ $testimonial->city }}" />
+                        @error('city')
+                <small class="text-danger">{{ $message }}</small>
+                @enderror
                     </div>
                 </div>
                 <div class="row mb-3">
@@ -53,6 +59,9 @@
                     </div>
                     <div class="form-group col-sm-9 text-secondary">
                         <textarea name="message" class="form-control" id="input11"  " rows="3">{{ $testimonial->message }}</textarea>
+                        @error('message')
+                <small class="text-danger">{{ $message }}</small>
+                @enderror
                     </div>
                 </div>
                
@@ -63,6 +72,9 @@
                     </div>
                     <div class="form-group col-sm-9 text-secondary">
                         <input class="form-control" name="image" type="file" id="image">
+                        @error('image')
+                <small class="text-danger">{{ $message }}</small>
+                @enderror
                     </div>
                 </div>
 
@@ -106,26 +118,30 @@
                             name: {
                                 required : true,
                             }, 
-                            postion: {
+                            city: {
                                 required : true,
                             }, 
-                            facebook: {
+                            message: {
                                 required : true,
                             }, 
-                            
+                            image: {
+                                required : true,
+                            },
                             
                         },
                         messages :{
                             name: {
-                                required : 'Please Enter Team Name',
+                                required : 'Please Enter the Name',
                             }, 
-                            postion: {
-                                required : 'Please Enter Team Postion',
+                            city: {
+                                required : 'Please Enter city name',
                             }, 
-                            facebook: {
-                                required : 'Please Enter Facebook Url',
+                            message: {
+                                required : 'Please Enter the Message',
                             },
-                            
+                            image: {
+                                required : 'Please Select Image',
+                            }, 
                              
             
                         },

@@ -12,6 +12,11 @@ class ReportController extends Controller
         return view('backend.report.booking_report');
     } // End Method 
     public function SearchByDate(Request $request){
+        $request->validate([
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after:start_date',
+        ]);
+
         $startDate = $request->input('start_date');
         $endDate = $request->input('end_date');
         $bookings = Booking::where('check_in', '>=', $startDate)->where('check_out', '<=', $endDate)->get();

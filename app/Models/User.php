@@ -47,7 +47,7 @@ class User extends Authenticatable
     } // End Method 
 
 
-    public static function getpermissionByGroupName($group_name){
+    public static function getpermissionByGroupName($group_name){ // by me for permission
 
         $permissions = DB::table('permissions')
                             ->select('name','id')
@@ -57,13 +57,13 @@ class User extends Authenticatable
     }
 
 
-    public static function roleHasPermissions($role,$permissions){
+    public static function roleHasPermissions($role,$permissions){ // by me for permission
         $hasPermission = true;
         foreach ($permissions as $permission) {
            if (!$role->hasPermissionTo($permission->name)) {
             $hasPermission = false;
            }
-           return $hasPermission;
+           return $hasPermission; 
         }
     }// End Method 
 }

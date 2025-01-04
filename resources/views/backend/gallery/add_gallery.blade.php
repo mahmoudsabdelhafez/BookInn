@@ -33,6 +33,13 @@
     <div class="col-md-6">
         <label for="input1" class="form-label">Gallery Image </label>
         <input type="file" name="photo_name[]" class="form-control" id="multiImg" multiple  >
+        @if ($errors->has('photo_name'))
+        <span class="text-danger">{{ $errors->first('photo_name') }}</span>
+    @endif
+
+    @foreach ($errors->get('photo_name.*') as $message)
+        <span class="text-danger">{{ $message[0] }}</span><br>
+    @endforeach
         <div class="row" id="preview_img"></div>
     </div>
  

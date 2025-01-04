@@ -8,8 +8,9 @@ use App\Models\BlogCategory;
 use Intervention\Image\Facades\Image;
 use Carbon\Carbon;
 use App\Models\BlogPost;
-use Illuminate\Support\Facades\Auth; 
-
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
+use App\Models\Comment;
 
 class BlogController extends Controller
 {
@@ -20,6 +21,10 @@ class BlogController extends Controller
 
 
     public function StoreBlogCategory(Request $request){
+        $request->validate([
+            'category_name' => 'required|string|max:255|unique:blog_categories,category_name,' . $request->cat_id,
+        ]);
+
         BlogCategory::insert([
             'category_name' => $request->category_name,
             'category_slug' => strtolower(str_replace(' ','-',$request->category_name)),
@@ -36,13 +41,19 @@ class BlogController extends Controller
 
     public function EditBlogCategory($id){ // show edit box
         $categories = BlogCategory::find($id);
-        return response()->json($categories);
+        return response()->json($categories); // pass the json data to ajax to pass it to the modal
     }// End Method 
 
 
 
     public function UpdateBlogCategory(Request $request){
+        $request->validate([
+            'category_name' => 'required|string|max:255|unique:blog_categories,category_name,' . $request->cat_id,
+        ]);
+
         $cat_id = $request->cat_id;
+
+        
         BlogCategory::find($cat_id)->update([
             'category_name' => $request->category_name,
             'category_slug' => strtolower(str_replace(' ','-',$request->category_name)),
@@ -77,6 +88,14 @@ class BlogController extends Controller
     }
 
     public function StoreBlogPost(Request $request){
+
+        $request->validate([
+            'blogcat_id' => 'required|exists:blog_categories,id',
+            'post_title' => 'required|string|max:255|unique:blog_posts,post_title',
+            'short_desc' => 'required|string|max:500',
+            'long_desc' => 'required|string',
+            'post_image' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
+        ]);
         
         $image = $request->file('post_image');
         $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
@@ -93,7 +112,7 @@ class BlogController extends Controller
             'created_at' => Carbon::now(),
         ]);
         $notification = array(
-            'message' => 'BlogPost Data Inserted Successfully',
+            'message' => 'Blog Post Data Inserted Successfully',
             'alert-type' => 'success'
         );
         return redirect()->route('all.blog.post')->with($notification);
@@ -105,7 +124,24 @@ class BlogController extends Controller
         $post = BlogPost::find($id);
         return view('backend.post.edit_post',compact('blogcat','post'));
     }// End Method 
+
+
     public function UpdateBlogPost(Request $request){
+
+        $request->validate([
+            'blogcat_id' => 'required|exists:blog_categories,id',
+            'post_title' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('blog_posts', 'post_title')->ignore($request->id),
+            ],
+            'short_desc' => 'required|string|max:500',
+            'long_desc' => 'required|string',
+            'post_image' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
+        ]);
+
+
         $post_id = $request->id;
         if($request->file('post_image')){
         $image = $request->file('post_image');
@@ -163,11 +199,18 @@ class BlogController extends Controller
         return redirect()->back()->with($notification);
      }   // End Method
 
-     public function BlogDetails($slug){
+
+
+     // ====================== Front End Blog Post ==================== //
+
+     public function BlogDetails($slug){ // here we pass slug instead of id 
         $blog = BlogPost::where('post_slug',$slug)->first();
         $bcategory = BlogCategory::latest()->get();
         $lpost = BlogPost::latest()->limit(3)->get();
-        return view('frontend.blog.blog_details',compact('blog','bcategory','lpost'));
+        $comment = Comment::where('post_id', $blog->id)->where('status', '1')->limit(5)->get();
+
+        
+        return view('frontend.blog.blog_details',compact('blog','bcategory','lpost','comment'));
      }// End Method 
 
 

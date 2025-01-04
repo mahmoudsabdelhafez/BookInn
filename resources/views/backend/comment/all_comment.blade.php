@@ -52,10 +52,14 @@
         <td>{{ Str::limit($item['post']['post_title'], 30)  }}</td>
         <td>{{ Str::limit($item->message, 40) }}</td>
         <td>
-<div class="form-check-danger form-check form-switch">
+
+            {{-- Switcher  --}}
+<div class="form-check-success form-check form-switch">
     <input class="form-check-input status-toggle large-checkbox" type="checkbox" id="flexSwitchCheckCheckedDanger" data-comment-id="{{ $item->id }}" {{ $item->status ? 'checked' : '' }} >
-    <label class="form-check-label" for="flexSwitchCheckCheckedDanger"> </label>
+    <label class="form-check-label" for="flexSwitchCheckCheckedSuccess"> </label>
 </div>
+            {{-- Switcher  --}}
+
 
         </td>
     </tr>

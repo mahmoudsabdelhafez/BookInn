@@ -204,7 +204,9 @@ class BookingController extends Controller
                'alert-type' => 'success'
            );
            
+           // ===================== To Send Notification =====================
            Notification::send($user, new BookingComplete($request->name));
+           // ===================== To Send Notification =====================
 
            return redirect('/')->with($notification);  
 

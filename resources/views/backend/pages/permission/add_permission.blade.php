@@ -34,14 +34,17 @@
     
     <div class="col-md-6">
         <label for="input1" class="form-label">Permission Name </label>
-        <input type="text" name="name" class="form-control"   >
+        <input required type="text" name="name" class="form-control"   >
+        @error('name')
+        <span class="text-danger">{{ $message }}</span>
+        @enderror
          
     </div>
 
     <div class="col-md-6">
         <label for="input1" class="form-label">Permission Group </label>
-        <select name="group_name" class="form-select mb-3" aria-label="Default select example">
-            <option selected="">Select Group </option>
+        <select required name="group_name" class="form-select mb-3" aria-label="Default select example">
+            <option selected value="">Select Group </option>
             <option value="Team">Team </option>
             <option value="Book Area">Book Area</option>
             <option value="Manage Room">Manage Room</option>
@@ -56,6 +59,9 @@
             <option value="Contact Message ">Contact Message </option>
             <option value="Role and Permission">Role and Permission </option>
         </select>
+        @error('group_name')
+        <span class="text-danger">{{ $message }}</span>
+        @enderror   
          
     </div>
     

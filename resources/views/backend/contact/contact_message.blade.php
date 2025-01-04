@@ -46,7 +46,8 @@
                             <td>{{ $item->phone }}</td>
                             <td>{{ $item->subject }}</td>
                             <td>{{ $item->message }}</td>
-                            <td>{{ Carbon\Carbon::parse($item->created_at)->diffForHumans()  }}</td>
+                            {{-- This method is used to get a human-readable difference from the current time. --}}
+                            <td>{{ Carbon\Carbon::parse($item->created_at)->diffForHumans()  }}</td> 
                              
                         </tr>
                         @endforeach 

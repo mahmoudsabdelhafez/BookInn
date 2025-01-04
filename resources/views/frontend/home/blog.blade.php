@@ -1,6 +1,4 @@
-@php
-    $blog = App\Models\BlogPost::latest()->limit(3)->get();
-@endphp
+
 <div class="blog-area pt-100 pb-70">
     <div class="container">
         <div class="section-title text-center">

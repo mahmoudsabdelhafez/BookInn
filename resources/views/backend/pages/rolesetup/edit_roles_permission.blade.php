@@ -60,7 +60,7 @@
      @endphp
 
                 <div class="form-check">
-      <input class="form-check-input" type="checkbox"  id="CheckDefault" {{ App\Models\User::roleHasPermissions($role,$permissions) ? 'checked' : '' }}>
+      {{-- <input class="form-check-input" type="checkbox"  id="CheckDefault" {{ App\Models\User::roleHasPermissions($role,$permissions) ? 'checked' : '' }}> --}}
                     
       <label class="form-check-label" for="CheckDefault"> {{ $group->group_name }} </label>
                 </div>

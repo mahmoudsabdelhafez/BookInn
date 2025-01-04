@@ -34,7 +34,10 @@
                         <h6 class="mb-0"> Name</h6>
                     </div>
                     <div class="form-group col-sm-9 text-secondary">
-                        <input type="text" name="name" class="form-control"  />
+                        <input required type="text" name="name" class="form-control"  />
+                        @error('name')
+                <small class="text-danger">{{ $message }}</small>
+                @enderror
                     </div>
                 </div>
                 <div class="row mb-3">
@@ -42,7 +45,10 @@
                         <h6 class="mb-0">City</h6>
                     </div>
                     <div class="form-group col-sm-9 text-secondary">
-                        <input type="text" name="city"  class="form-control"  />
+                        <input required type="text" name="city"  class="form-control"  />
+                        @error('city')
+                <small class="text-danger">{{ $message }}</small>
+                @enderror
                     </div>
                 </div>
                 <div class="row mb-3">
@@ -50,7 +56,10 @@
                         <h6 class="mb-0">Message </h6>
                     </div>
                     <div class="form-group col-sm-9 text-secondary">
-                        <textarea name="message" class="form-control" id="input11" placeholder="Message ..." rows="3"></textarea>
+                        <textarea required  name="message" class="form-control" id="input11" placeholder="Message ..." rows="3"></textarea>
+                        @error('message')
+                <small class="text-danger">{{ $message }}</small>
+                @enderror
                     </div>
                 </div>
                
@@ -60,7 +69,10 @@
                         <h6 class="mb-0">Photo </h6>
                     </div>
                     <div class="form-group col-sm-9 text-secondary">
-                        <input class="form-control" name="image" type="file" id="image">
+                        <input required class="form-control" name="image" type="file" id="image">
+                        @error('image')
+                <small class="text-danger">{{ $message }}</small>
+                @enderror
                     </div>
                 </div>
 
@@ -104,10 +116,10 @@
                             name: {
                                 required : true,
                             }, 
-                            postion: {
+                            city: {
                                 required : true,
                             }, 
-                            facebook: {
+                            message: {
                                 required : true,
                             }, 
                             image: {
@@ -117,13 +129,13 @@
                         },
                         messages :{
                             name: {
-                                required : 'Please Enter Team Name',
+                                required : 'Please Enter the Name',
                             }, 
-                            postion: {
-                                required : 'Please Enter Team Postion',
+                            city: {
+                                required : 'Please Enter city name',
                             }, 
-                            facebook: {
-                                required : 'Please Enter Facebook Url',
+                            message: {
+                                required : 'Please Enter the Message',
                             },
                             image: {
                                 required : 'Please Select Image',

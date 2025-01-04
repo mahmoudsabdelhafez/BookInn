@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BlogPost;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
@@ -18,10 +19,12 @@ class UserController extends Controller
     $room = Room::latest()->limit(4)->get();
     $team = Team::latest()->get();
     $testimonial = Testimonial::latest()->Limit(3)->get();
+    $blog = BlogPost::latest()->limit(3)->get();
+
 
     $bookarea = BookArea::find(1);
 
-        return view('frontend.index' , compact('room','team','bookarea','testimonial'));
+        return view('frontend.index' , compact('room','team','bookarea','testimonial','blog'));
     }// End Method 
 
 

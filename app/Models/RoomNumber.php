@@ -20,4 +20,4 @@ class RoomNumber extends Model
     } // one to one
 
 
-}
+}   

@@ -21,6 +21,15 @@ class TestimonialController extends Controller
 
 
     public function StoreTestimonial(Request $request){
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'city' => 'required|string|max:255',
+            'message' => 'required|string|max:500',
+            'image' => 'required|image|mimes:jpg,jpeg,png,gif|max:2048', // Max file size: 2MB
+        ]);
+
+
         $image = $request->file('image');
         $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
         Image::make($image)->resize(50,50)->save('upload/testimonial/'.$name_gen);
@@ -44,7 +53,17 @@ class TestimonialController extends Controller
         $testimonial = Testimonial::find($id);
         return view('backend.testimonial.edit_testimonial',compact('testimonial'));
     } // End Method 
+
+
     public function UpdateTestimonial(Request $request){
+        
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'city' => 'required|string|max:255',
+            'message' => 'required|string|max:500',
+            'image' => 'required|image|mimes:jpg,jpeg,png,gif|max:2048', // Max file size: 2MB
+        ]);
+
         $test_id = $request->id;
         if($request->file('image')){
             $image = $request->file('image');

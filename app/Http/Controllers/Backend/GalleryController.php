@@ -18,7 +18,16 @@ class GalleryController extends Controller
     public function AddGallery(){
         return view('backend.gallery.add_gallery');
     } // End Method 
+
     public function StoreGallery(Request $request){
+        $request->validate([
+            'photo_name' => 'required|array',
+            'photo_name.*' => 'mimes:jpg,jpeg,png,gif|max:2048',
+        ], [
+            'photo_name.required' => 'Please upload at least one image.',
+            'photo_name.*.mimes' => 'Only JPG, JPEG, PNG, and GIF files are allowed.',
+            'photo_name.*.max' => 'Each image must not exceed 2MB in size.',
+        ]);
         $images = $request->file('photo_name');
         
         foreach ($images as $img) {
@@ -45,6 +54,10 @@ class GalleryController extends Controller
         return view('backend.gallery.edit_gallery',compact('gallery'));
     }// End Method 
     public function UpdateGallery(Request $request){
+        $request->validate([
+            'photo_name' => 'required|mimes:jpg,jpeg,png,gif|max:2048', 
+        ]);
+
         $gal_id = $request->id;
         $img = $request->file('photo_name');
         $name_gen = hexdec(uniqid()).'.'.$img->getClientOriginalExtension();
@@ -83,7 +96,7 @@ class GalleryController extends Controller
            $item->delete();
         }
         $notification = array(
-            'message' => 'Selected Image Deleted Successfully',
+            'message' => 'Selected Images Deleted Successfully',
             'alert-type' => 'success'
         );
         return redirect()->back()->with($notification);
@@ -95,13 +108,23 @@ class GalleryController extends Controller
      }// End Method
 
 
-     // Contact Us
+     // ============================== Contact Us =========================================
      public function ContactUs(){
         return view('frontend.contact.contact_us');
      }// End Method
 
 
      public function StoreContactUs(Request $request){
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email',
+            'phone' => 'required|numeric|digits_between:10,15',
+            'subject' => 'required|string|max:255',
+            'message' => 'required|string|max:1000',
+        ]);
+
+
         Contact::insert([
             'name' => $request->name,
             'email' => $request->email,

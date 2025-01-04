@@ -80,7 +80,7 @@ class SettingController extends Controller
             ]);
     
             $notification = array(
-                'message' => 'Site Setting Updated Successfully',
+                'message' => 'Site Setting Updated Successfully without logo change',
                 'alert-type' => 'success'
             );
     

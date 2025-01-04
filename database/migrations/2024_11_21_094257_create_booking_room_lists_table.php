@@ -11,11 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('booking_room_lists', function (Blueprint $table) {
-            $table->id();
-            
-            $table->timestamps();
-        });
+            Schema::create('booking_room_lists', function (Blueprint $table) {
+                $table->id();
+                $table->integer('booking_id');
+                $table->integer('room_id');
+                $table->string('room_number_id');
+                $table->timestamps();
+            });
     }
 
     /**

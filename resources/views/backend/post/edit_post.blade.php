@@ -33,7 +33,7 @@
 
                     <input type="hidden" name="id" value="{{ $post->id }}">
 
-                    <div class="col-md-6">
+                    <div class="form-group col-md-6">
                         <label for="input7" class="form-label">Blog Category</label>
                         <select name="blogcat_id" id="input7" class="form-select">
                             <option selected="">Select Category </option>
@@ -42,32 +42,47 @@
                             @endforeach
                            
                         </select>
+                        @error('blogcat_id')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
                     </div>
                     
-                    <div class="col-md-6">
+                    <div class="form-group col-md-6">
                         <label for="input1" class="form-label">Post Title</label>
                         <input type="text" name="post_title" class="form-control" id="input1" value="{{ $post->post_title }}" >
+                        @error('post_title')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
                     </div>
 
 
-                    <div class="col-md-12">
+                    <div class="form-group col-md-12">
                         <label for="input11" class="form-label">Short Description</label>
                         <textarea name="short_desc" class="form-control" id="input11"   rows="3">{{ $post->short_desc }}</textarea>
+                        @error('short_desc')   
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
                     </div>
 
 
                     
-                    <div class="col-md-12">
+                    <div class="form-group col-md-12">
                         <label for="input11" class="form-label">Post Description</label>
                         <textarea name="long_desc" class="form-control" id="myeditorinstance" >{!! $post->long_desc !!}</textarea>
+                        @error('long_desc')   
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
                     </div>
 
-                    <div class="col-md-6">
+                    <div class="form-group col-md-6">
                         <label for="input1" class="form-label">Post Title</label>
                         <input class="form-control" name="post_image" type="file" id="image">
+                        @error('post_image')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
                     </div>
 
-                    <div class="col-md-6">
+                    <div class="form-group col-md-6">
                         <label for="input1" class="form-label"> </label>
                         <img id="showImage" src="{{ asset($post->post_image) }}" alt="Admin" class="rounded-circle p-1 bg-primary" width="80">
                     </div>
@@ -109,6 +124,65 @@
         });
 
         </script>   
+
+
+<script type="text/javascript">
+    $(document).ready(function (){
+        $('#myForm').validate({
+            rules: {
+                blogcat_id: {
+                    required : true,
+                }, 
+                post_title: {
+                    required : true,
+                }, 
+                short_desc: {
+                    required : true,
+                }, 
+                long_desc: {
+                    required : true,
+                }, 
+                post_image: {
+                    required : true,
+                }, 
+               
+                
+            },
+            messages :{
+                blogcat_id: {
+                    required : 'Please Select Category Name',
+                }, 
+                post_title: {
+                    required : 'Please Enter Post Title',
+                }, 
+                short_desc: {
+                    required : 'Please Enter Short Description',
+                },
+                long_desc: {
+                    required : 'Please Enter post Description',
+                },
+                post_image: {
+                    required : 'Please Select Post Image',
+                },
+                 
+                 
+
+            },
+            errorElement : 'span', 
+            errorPlacement: function (error,element) {
+                error.addClass('invalid-feedback');
+                element.closest('.form-group').append(error);
+            },
+            highlight : function(element, errorClass, validClass){
+                $(element).addClass('is-invalid');
+            },
+            unhighlight : function(element, errorClass, validClass){
+                $(element).removeClass('is-invalid');
+            },
+        });
+    });
+    
+</script>
         
         
 

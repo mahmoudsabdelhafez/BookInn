@@ -48,12 +48,7 @@
                                 {!! $blog->long_desc !!}
                             </p>
                         </div>
-                        @php
-                            $comment = App\Models\Comment::where('post_id', $blog->id)
-                                ->where('status', '1')
-                                ->limit(5)
-                                ->get();
-                        @endphp
+                       
                         <div class="comments-wrap">
                             <h3 class="title">Comments</h3>
                             <ul>
@@ -115,7 +110,7 @@
                                         </div>
                                     </form>
                                 @else
-                                    <p>Plz <a href="{{ route('login') }}">Login</a> First for Add Comment </p>
+                                    <p>Please <a href="{{ route('login') }}">Login</a> First To Add Comment </p>
 
                                 @endauth
                             </div>
@@ -124,15 +119,7 @@
                 </div>
 
                 <div class="col-lg-4">
-                    <div class="side-bar-wrap">
-                        <div class="search-widget">
-                            <form class="search-form">
-                                <input type="search" class="form-control" placeholder="Search...">
-                                <button type="submit">
-                                    <i class="bx bx-search"></i>
-                                </button>
-                            </form>
-                        </div>
+                    
 
                         <div class="services-bar-widget">
                             <h3 class="title">Blog Category</h3>
@@ -153,26 +140,17 @@
 
                                 @foreach ($lpost as $post)
                                     <article class="item">
-                                        <a href="blog-details.html" class="thumb">
+                                        <a href="{{ url('blog/details/' . $post->post_slug) }}" class="thumb">
                                             <img src="{{ asset($post->post_image) }}" alt="Images"
                                                 style="width: 80px; height:80px;">
                                         </a>
                                         <div class="info">
                                             <h4 class="title-text">
-                                                <a href="blog-details.html">
+                                                <a href="{{ url('blog/details/' . $post->post_slug) }}">
                                                     {{ $post->post_title }}
                                                 </a>
                                             </h4>
-                                            <ul>
-                                                <li>
-                                                    <i class='bx bx-user'></i>
-                                                    29K
-                                                </li>
-                                                <li>
-                                                    <i class='bx bx-message-square-detail'></i>
-                                                    15K
-                                                </li>
-                                            </ul>
+                                            
                                         </div>
                                     </article>
                                 @endforeach
