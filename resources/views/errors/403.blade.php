@@ -22,9 +22,9 @@
 	<div class="wrapper">
 		<nav class="navbar navbar-expand-lg navbar-light bg-white rounded fixed-top rounded-0 shadow-sm">
 			<div class="container-fluid">
-				<a class="navbar-brand" href="#">
+				{{-- <a class="navbar-brand" href="#">
 					<img src="{{ asset('backend/assets/images/logo-img.png') }}" width="140" alt="" />
-				</a>
+				</a> --}}
 				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent1" aria-controls="navbarSupportedContent1" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span>
 				</button>
 				<div class="collapse navbar-collapse" id="navbarSupportedContent1">
@@ -50,8 +50,8 @@
 								<h1 class="display-1"><span class="text-primary">4</span><span class="text-danger">0</span><span class="text-success">3</span></h1>
 								<h2 class="font-weight-bold display-4">Lost in Space</h2>
 								<p>USER DOES NOT HAVE THE RIGHT PERMISSIONS.</p>
-								<div class="mt-5"> <a href="javascript:;" class="btn btn-primary btn-lg px-md-5 radius-30">Go Home</a>
-									<a href="javascript:;" class="btn btn-outline-dark btn-lg ms-3 px-md-5 radius-30">Back</a>
+								<div class="mt-5"> <a href="{{route('admin.dashboard')}}" class="btn btn-primary btn-lg px-md-5 radius-30">Go Home</a>
+									<a href="javascript:history.back()" class="btn btn-outline-dark btn-lg ms-3 px-md-5 radius-30">Back</a>
 								</div>
 							</div>
 						</div>
@@ -74,7 +74,7 @@
 					<li class="list-inline-item"><a href="javascript:;"><i class='bx bxl-google me-1'></i>Google</a>
 					</li>
 				</ul>
-				<p class="mb-0">Copyright © 2021. All right reserved.</p>
+				<p class="mb-0">Copyright © 2025. All right reserved.</p>
 			</div>
 		</div>
 	</div>

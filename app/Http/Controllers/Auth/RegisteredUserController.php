@@ -33,19 +33,26 @@ class RegisteredUserController extends Controller
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'password' => ['required', 'confirmed',Rules\Password::defaults()],
         ]);
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => Hash::make($request->password),
+            'password' => Hash::make($request->password), // Bcrypt Hash
         ]);
 
         event(new Registered($user));
 
-        Auth::login($user);
+        Auth::login($user); // login user after register
 
-        return redirect(RouteServiceProvider::HOME);
+        $notification = array(
+            'message' => 'User ' . $user->name . ' Registered Successfully',
+            'alert-type' => 'success'
+        );
+
+
+
+        return redirect(RouteServiceProvider::HOME)->with($notification);
     }
 }

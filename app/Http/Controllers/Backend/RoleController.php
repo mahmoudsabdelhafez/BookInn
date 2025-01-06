@@ -169,28 +169,56 @@ class RoleController extends Controller
 
 
     public function RolePermissionStore(Request $request)
-    { // we store on roleHasPermission table(we store id's to link permissions with roles)
-// Validate the request
-            $request->validate([
-                'role_id' => 'required|exists:roles,id',
-                'permission' => 'required|array',
-                'permission.*' => 'exists:permissions,id',
-            ]);
-
-        $data = array();
+    {
+        // Validate the request
+        $request->validate([
+            'role_id' => 'required|exists:roles,id',
+            'permission' => 'required|array',
+            'permission.*' => 'exists:permissions,id',
+        ]);
+    
+        $data = [];
         $permissions = $request->permission;
-        foreach ($permissions as $key => $item) {
-            $data['role_id'] = $request->role_id;
-            $data['permission_id'] = $item;
-            DB::table('role_has_permissions')->insert($data);
-        } // end foreach
+        $alreadyAssigned = [];
+    
+        foreach ($permissions as $item) {
+            // Check if the permission is already assigned to the role
+            $exists = DB::table('role_has_permissions')
+                ->where('role_id', $request->role_id)
+                ->where('permission_id', $item)
+                ->exists();
+    
+            if ($exists) {
+                // Add to already assigned list
+                $alreadyAssigned[] = $item;
+            } else {
+                // Insert new permission assignment
+                $data['role_id'] = $request->role_id;
+                $data['permission_id'] = $item;
+                DB::table('role_has_permissions')->insert($data);
+            }
+        }
+    
+        // Prepare notification
+        if (!empty($alreadyAssigned)) {
+            $notification = [
+                'message' => 'Some permissions were already assigned to this role.',
+                'alert-type' => 'warning'
+            ];
+            return redirect()->back()->with($notification);
 
-        $notification = array(
-            'message' => 'Role Permission Added Successfully',
-            'alert-type' => 'success'
-        );
-        return redirect()->route('all.roles.permission')->with($notification);
-    } // End Method
+        } else {
+            $notification = [
+                'message' => 'Role Permission Added Successfully',
+                'alert-type' => 'success'
+            ];
+            return redirect()->route('all.roles.permission')->with($notification);
+
+        }
+    
+        // Redirect back with notification
+    }
+    
 
 
 
@@ -227,7 +255,8 @@ class RoleController extends Controller
         // Sync the permissions (empty array if all permissions are removed)
         if (count($permissions) > 0) {
             $permissionNames = Permission::whereIn('id', $permissions)->pluck('name');
-            $role->syncPermissions($permissionNames);
+            $role->syncPermissions($permissionNames); // Syncs the role with the provided permission names. Removes any old permissions and replaces them with the new ones.
+            
         } else {
             // If no permissions are provided, remove all associated permissions
             $role->syncPermissions([]);

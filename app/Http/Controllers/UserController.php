@@ -75,7 +75,7 @@ class UserController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         $notification = array(
-            'message' => 'User ' . $data->name . 'Logout Successfully',
+            'message' => 'User ' . $data->name . ' Logout Successfully',
             'alert-type' => 'success'
         );
         return redirect('/login')->with($notification);

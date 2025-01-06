@@ -23,7 +23,7 @@
     <div class="container">
         <div class="section-title text-center">
             <span class="sp-color">ROOMS</span>
-            <h2>Our Rooms & Rates</h2>
+            <h2>Our Rooms</h2>
         </div>
         <div class="row pt-45">
            

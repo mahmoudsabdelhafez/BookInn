@@ -43,18 +43,27 @@
             <div class="col-lg-12">
                 <div class="form-group">
                     <input type="email" name="email" id="email" class="form-control" required data-error="Please enter email" placeholder="Email">
+                    @error('email')
+                <small class="text-danger">{{ $message }}</small>
+                @enderror
                 </div>
             </div>
 
             <div class="col-lg-12">
                 <div class="form-group">
                     <input type="password" name="password" id="password" class="form-control" required data-error="Please enter email" placeholder="password">
+                    @error('password')
+                <small class="text-danger">{{ $message }}</small>
+                @enderror
                 </div>
             </div>
 
             <div class="col-12">
                 <div class="form-group">
-                    <input class="form-control" type="password" name="password_confirmation" id="password_confirmation" placeholder="Confirm Password">
+                    <input class="form-control" type="password" name="password_confirmation" id="password_confirmation" required placeholder="Confirm Password">
+                    @error('password_confirmation')
+                <small class="text-danger">{{ $message }}</small>
+                @enderror
                 </div>
             </div>
 

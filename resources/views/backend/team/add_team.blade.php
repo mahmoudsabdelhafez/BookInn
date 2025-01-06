@@ -31,7 +31,7 @@
                                         <h6 class="mb-0">Name</h6>
                                     </div>
                                     <div class="form-group col-sm-9 text-secondary">
-                                        <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" value="{{ old('name') }}" />
+                                        <input required type="text" name="name" class="form-control @error('name') is-invalid @enderror" value="{{ old('name') }}" />
                                         @error('name')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
@@ -43,7 +43,7 @@
                                         <h6 class="mb-0">Position</h6>
                                     </div>
                                     <div class="form-group col-sm-9 text-secondary">
-                                        <input type="text" name="position" class="form-control @error('position') is-invalid @enderror" value="{{ old('position') }}" />
+                                        <input required type="text" name="position" class="form-control @error('position') is-invalid @enderror" value="{{ old('position') }}" />
                                         @error('position')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
@@ -55,7 +55,7 @@
                                         <h6 class="mb-0">Facebook</h6>
                                     </div>
                                     <div class="form-group col-sm-9 text-secondary">
-                                        <input type="text" name="facebook" class="form-control @error('facebook') is-invalid @enderror" value="{{ old('facebook') }}" />
+                                        <input re type="text" name="facebook" class="form-control @error('facebook') is-invalid @enderror" value="{{ old('facebook') }}" />
                                         @error('facebook')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
@@ -91,7 +91,7 @@
                                         <h6 class="mb-0">Photo</h6>
                                     </div>
                                     <div class="form-group col-sm-9 text-secondary">
-                                        <input type="file" class="form-control @error('image') is-invalid @enderror" name="image" id="image">
+                                        <input required type="file" class="form-control @error('image') is-invalid @enderror" name="image" id="image">
                                         @error('image')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
@@ -124,15 +124,27 @@
 
 {{-- Script to render the image once selected --}}
 <script type="text/javascript">
-    $(document).ready(function() {
-        $('#image').change(function(e) {
-            var reader = new FileReader();
-            reader.onload = function(e) {
-                $('#showImage').attr('src', e.target.result);
-            }
-            reader.readAsDataURL(e.target.files[0]);
-        });
-    });
+// Wait until the document (HTML) is fully loaded before running the jQuery code
+$(document).ready(function() {
+
+// When the input element with the ID 'image' changes (i.e., a file is selected)
+$('#image').change(function(e) {
+    
+    // Create a new FileReader object to read the content of the selected file
+    var reader = new FileReader();
+
+    // When the file is successfully read, this function will run
+    reader.onload = function(e) {
+        // Set the 'src' attribute of the image element with the ID 'showImage' to the file's data URL
+        $('#showImage').attr('src', e.target.result);
+    }
+
+    // Read the selected file as a Data URL (base64 string)
+    reader.readAsDataURL(e.target.files[0]);
+});
+
+});
+
 </script>
 
 @endsection

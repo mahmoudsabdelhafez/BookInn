@@ -6,7 +6,7 @@
 <div class="navbar-area">
     <!-- Menu For Mobile Device -->
     <div class="mobile-nav">
-        <a href="index.html" class="logo">
+        <a href="{{ url('/') }}" class="logo">
             <img src="{{ asset($setting->logo) }}" class="logo-one" alt="Logo">
             <img src="{{ asset($setting->logo) }}" class="logo-two" alt="Logo">
         </a>
@@ -16,7 +16,7 @@
     <div class="main-nav">
         <div class="container">
             <nav class="navbar navbar-expand-md navbar-light ">
-                <a class="navbar-brand" href="index.html">
+                <a class="navbar-brand" href="{{ url('/') }}">
                     <img src="{{ asset($setting->logo) }}" class="logo-one" alt="Logo">
                     <img src="{{ asset($setting->logo) }}" class="logo-two" alt="Logo">
                 </a>
@@ -41,7 +41,7 @@
                                             <ul class="dropdown-menu">
                                                 @foreach ($room  as $item) 
                                                 <li class="nav-item">
-                                                    <a href="room.html" class="nav-link">
+                                                    <a href="{{url('room/details/'.$item->id)}}" class="nav-link">
                                                         {{ $item['type']['name'] }}
                                                     </a>
                                                 </li>
@@ -75,12 +75,12 @@
                         </li>
 
                         <li class="nav-item-btn">
-                            <a href="#" class="default-btn btn-bg-one border-radius-5">Book Now</a>
+                            <a href="{{ route('froom.all') }}" class="default-btn btn-bg-one border-radius-5">Book Now</a>
                         </li>
                     </ul>
 
                     <div class="nav-btn">
-                        <a href="#" class="default-btn btn-bg-one border-radius-5">Book Now</a>
+                        <a href="{{ route('froom.all') }}" class="default-btn btn-bg-one border-radius-5">Book Now</a>
                     </div>
                 </div>
             </nav>

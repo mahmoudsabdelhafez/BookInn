@@ -37,6 +37,8 @@
 
 
 	<title>Admin Dashboard</title>
+	<link rel="icon" type="image/x-icon" href="{{asset('backend/assets/images/logo-icon.png')}}">
+
 </head>
 
 <body>

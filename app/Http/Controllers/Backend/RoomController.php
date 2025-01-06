@@ -248,7 +248,7 @@ class RoomController extends Controller
     { // edit room number
 
         $validatedData = $request->validate([
-            'room_no' => 'required|numeric|unique:room_numbers,room_no', // Ensure room_no is unique in the room_numbers table
+            // 'room_no' => 'required|numeric|unique:room_numbers,room_no'. $id, // Ensure room_no is unique in the room_numbers table
             'status' => 'required|in:Active,Inactive', // Limit status to specific values
         ]);
 

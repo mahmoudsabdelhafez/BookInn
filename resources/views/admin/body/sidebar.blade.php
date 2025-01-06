@@ -4,7 +4,7 @@
             <img src="{{asset('backend/assets/images/logo-icon.png')}}" class="logo-icon" alt="logo icon">
         </div>
         <div>
-            <h4 class="logo-text">Easy</h4>
+            <h4 class="logo-text">BookInn</h4>
         </div>
         <div class="toggle-icon ms-auto"><i class='bx bx-arrow-back'></i>
         </div>
@@ -17,6 +17,13 @@
                 <div class="parent-icon"><i class='bx bx-home-alt'></i>
                 </div>
                 <div class="menu-title">Dashboard</div>
+            </a>
+        </li>
+        <li>
+            <a href="{{ route('home') }}">
+                <div class="parent-icon"><i class='bx bx-home-alt'></i>
+                </div>
+                <div class="menu-title">Go To Website</div>
             </a>
         </li>
         
@@ -99,9 +106,8 @@
         @endif
 
 
+        @if(Auth::user()->can('roomlist.menu'))
         <li>
-
-
             <a class="has-arrow" href="javascript:;">
                 <div class="parent-icon"><i class='bx bx-bookmark-heart'></i>
                 </div>
@@ -114,8 +120,27 @@
                  
             </ul>
         </li>
+        @endif
+
+        @if(Auth::user()->can('booking.report.menu'))
+        <li>
+            <a class="has-arrow" href="javascript:;">
+                <div class="parent-icon"><i class='bx bx-bookmark-heart'></i>
+                </div>
+                <div class="menu-title">Booking Report </div>
+            </a>
+            <ul>
+                <li> <a href="{{ route('booking.report') }}"><i class='bx bx-radio-circle'></i>Booking Report </a>
+                </li> 
+                 
+            </ul>
+        </li>
+        @endif
 
 
+
+            <li class="menu-label">Others </li>
+            @if(Auth::user()->can('setting.menu'))
         <li>
             <a class="has-arrow" href="javascript:;">
                 <div class="parent-icon"><i class='bx bx-bookmark-heart'></i>
@@ -123,8 +148,8 @@
                 <div class="menu-title">Setting</div>
             </a>
             <ul>
-                <li> <a href="{{ route('smtp.setting') }}"><i class='bx bx-radio-circle'></i>SMTP Setting</a>
-                </li>
+                {{-- <li> <a href="{{ route('smtp.setting') }}"><i class='bx bx-radio-circle'></i>SMTP Setting</a>
+                </li> --}}
 
                 <li> <a href="{{ route('site.setting') }}"><i class='bx bx-radio-circle'></i>Site Setting</a>
                 </li>
@@ -132,6 +157,7 @@
                  
             </ul>
         </li>
+        @endif
  
         @if(Auth::user()->can('testimonial.menu'))
         <li>
@@ -198,20 +224,7 @@
         @endif
         
 
-        @if(Auth::user()->can('booking.report.menu'))
-        <li>
-            <a class="has-arrow" href="javascript:;">
-                <div class="parent-icon"><i class='bx bx-bookmark-heart'></i>
-                </div>
-                <div class="menu-title">Booking Report </div>
-            </a>
-            <ul>
-                <li> <a href="{{ route('booking.report') }}"><i class='bx bx-radio-circle'></i>Booking Report </a>
-                </li> 
-                 
-            </ul>
-        </li>
-        @endif
+        
 
 
         @if(Auth::user()->can('gallery.menu'))
@@ -271,7 +284,7 @@
         </li>
         @endif
 
-
+        @if(Auth::user()->can('admin.menu'))
         <li>
             <a class="has-arrow" href="javascript:;">
                 <div class="parent-icon"><i class='bx bx-bookmark-heart'></i>
@@ -287,6 +300,7 @@
                  
             </ul>
         </li>
+        @endif
 
        
          

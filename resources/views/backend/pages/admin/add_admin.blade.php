@@ -32,38 +32,56 @@
     
     <div class="col-md-6">
         <label for="input1" class="form-label">Admin User Name </label>
-        <input type="text" name="name" class="form-control"   >
+        <input required type="text" name="name" class="form-control"   >
+        @error('name')
+        <small class="text-danger">{{ $message }}</small>
+        @enderror
          
     </div>
     <div class="col-md-6">
         <label for="input1" class="form-label">Admin User Email </label>
-        <input type="email" name="email" class="form-control"   >
+        <input required type="email" name="email" class="form-control"   >
+        @error('email')
+        <small class="text-danger">{{ $message }}</small>
+        @enderror
          
     </div>
     <div class="col-md-6">
         <label for="input1" class="form-label">Admin User Phone </label>
         <input type="text" name="phone" class="form-control"   >
+        @error('phone')
+        <small class="text-danger">{{ $message }}</small>
+        @enderror
          
     </div>
     <div class="col-md-6">
         <label for="input1" class="form-label">Admin User Address </label>
         <input type="text" name="address" class="form-control"   >
+        @error('address')
+        <small class="text-danger">{{ $message }}</small>
+        @enderror
          
     </div>
     <div class="col-md-6">
         <label for="input1" class="form-label">Admin Password </label>
-        <input type="password" name="password" class="form-control"   >
+        <input required type="password" name="password" class="form-control"   >
+        @error('password')
+        <small class="text-danger">{{ $message }}</small>
+        @enderror
          
     </div>
     <div class="col-md-6">
         <label for="input1" class="form-label">Role Name </label>
-        <select name="roles" class="form-select mb-3" aria-label="Default select example">
-            <option selected="">Select Role </option>
+        <select required name="roles" class="form-select mb-3" aria-label="Default select example">
+            <option selected value="" >Select Role </option>
             @foreach ($roles as $role)
             <option value="{{ $role->id }}">{{ $role->name }} </option> 
             @endforeach
             
         </select>
+        @error('roles')
+        <small class="text-danger">{{ $message }}</small>
+        @enderror
          
     </div>
     

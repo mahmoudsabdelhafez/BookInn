@@ -266,13 +266,13 @@
              <a href="{{ url('room/details/'.$item->id) }}">{{ $item['type']['name'] }}</a>
                                 </h3>
                                 <span>{{ $item->price }} / Per Night </span>
-                                <div class="rating">
+                                {{-- <div class="rating">
                                     <i class='bx bxs-star'></i>
                                     <i class='bx bxs-star'></i>
                                     <i class='bx bxs-star'></i>
                                     <i class='bx bxs-star'></i>
                                     <i class='bx bxs-star'></i>
-                                </div>
+                                </div> --}}
                                 <p>{{ $item->short_desc }}</p>
                                 <ul>
                    <li><i class='bx bx-user'></i> {{ $item->room_capacity }} Person</li>
@@ -301,6 +301,9 @@
     </div>
 </div>
 <!-- Room Details Other End -->
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
     $(document).ready(function () {
@@ -365,14 +368,24 @@
     $("#bk_form").on('submit', function () {
        var av_room = $("#available_room").val();
        var select_room = $("#select_room").val();
-    //    if (parseInt(select_room) >  av_room){
-    //       alert('Sorry, you select maximum number of room');
-    //       return false;
-    //    }
+       if (parseInt(select_room) >  av_room){
+        Swal.fire({
+                icon: 'error',
+                title: 'Invalid Selection!',
+                text: 'The number of selected rooms exceeds the available number of available rooms. Please adjust your selection.',
+                confirmButtonText: 'OK'
+            });
+          return false;
+       }
        var nmbr_person = $("#nmbr_person").val();
        var total_adult = $("#total_adult").val();
        if(parseInt(nmbr_person) > parseInt(total_adult)){
-          alert('Sorry, you select maximum number of person');
+         Swal.fire({
+                icon: 'error',
+                title: 'Invalid Selection!',
+                text: 'The number of selected persons exceeds the available number of adults. Please adjust your selection.',
+                confirmButtonText: 'OK'
+            });
           return false;
        }
 

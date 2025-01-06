@@ -277,6 +277,7 @@
         }
     </style>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
 
@@ -302,7 +303,12 @@
 
                 var pay_method = $('input[name="payment_method"]:checked').val();
                 if (pay_method == undefined) {
-                    alert('Please select a payment method');
+                     Swal.fire({
+                icon: 'error',
+                title: 'Invalid Selection!',
+                text: 'Please select a payment method.',
+                confirmButtonText: 'OK'
+            });
                     return false;
                 } else if (pay_method == 'COD') {
 

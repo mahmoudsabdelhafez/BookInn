@@ -42,6 +42,18 @@ class FrontendRoomController extends Controller
             // Redirect back with the notification
             return redirect()->back()->with($notification);
         }
+
+        if ($request->check_in > $request->check_out) {
+    
+            $notification = array(
+                'message' => 'Check Out Date must be greater than Check In Date!',  
+                'alert-type' => 'error' 
+            );
+        
+            // Redirect back with the notification
+            return redirect()->back()->with($notification);
+        }
+        
     
         // Convert the check-in and check-out dates into 'Y-m-d' format
         $sdate = date('Y-m-d', strtotime($request->check_in)); // Start date
@@ -91,6 +103,17 @@ class FrontendRoomController extends Controller
                 'message' => 'Check In and Check Out Date is same!',
                 'alert-type' => 'error'
             );
+            return redirect()->back()->with($notification);
+        }
+
+        if ($request->check_in > $request->check_out) {
+    
+            $notification = array(
+                'message' => 'Check Out Date must be greater than Check In Date!',  
+                'alert-type' => 'error' 
+            );
+        
+            // Redirect back with the notification
             return redirect()->back()->with($notification);
         }
 

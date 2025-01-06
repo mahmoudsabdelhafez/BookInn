@@ -1,4 +1,4 @@
-<div class="faq-area pt-100 pb-70 section-bg">
+<div class="faq-area pt-100 pb-70 section-bg" id="faq">
     <div class="container">
         <div class="row align-items-center">
             <div class="col-lg-6">

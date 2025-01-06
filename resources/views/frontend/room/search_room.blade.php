@@ -56,13 +56,7 @@
                             <li class="text-color">${{ $item->price }}</li>
                             <li class="text-color">Per Night</li>
                         </ul>
-                        <div class="rating text-color">
-                            <i class='bx bxs-star'></i>
-                            <i class='bx bxs-star'></i>
-                            <i class='bx bxs-star'></i>
-                            <i class='bx bxs-star'></i>
-                            <i class='bx bxs-star-half'></i>
-                        </div>
+                       
                     </div>
                 </div>
             </div> 

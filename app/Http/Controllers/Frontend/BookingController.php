@@ -76,10 +76,17 @@ class BookingController extends Controller
             );
             return redirect()->back()->with($notification);
         }
+        if($request->check_in > $request->check_out){
+            $notification = array(
+                'message' => 'Check Out Date must be greater than Check In Date!',
+                'alert-type' => 'error'
+            );
+            return redirect()->back()->with($notification);
+        }
         if ($request->available_room < $request->number_of_rooms) {
            
             $notification = array(
-                'message' => 'Something want to wrong!',
+                'message' => 'Available Room is not enough!',
                 'alert-type' => 'error'
             ); 
             return redirect()->back()->with($notification); 
@@ -312,6 +319,20 @@ class BookingController extends Controller
         return redirect()->back()->with($notification);   
 
      }  // End Method 
+
+
+     public function DeleteBooking($id){
+
+        $data = Booking::find($id);
+        $data->delete();
+
+        $notification = array(
+            'message' => 'Booking Deleted Successfully',
+            'alert-type' => 'success'
+        ); 
+        return redirect()->back()->with($notification);
+         
+     }
      
 
      public function AssignRoom($booking_id)

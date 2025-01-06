@@ -44,7 +44,7 @@
                                                     @csrf
                                                     <div class="col-md-4">
                                                         <label for="input1" class="form-label">Room Type Name</label>
-                                                        <input type="text" name="roomtype_id" class="form-control @error('roomtype_id') is-invalid @enderror" id="input1" value="{{ $editData->type->name }}">
+                                                        <input required type="text" name="roomtype_id" class="form-control @error('roomtype_id') is-invalid @enderror" id="input1" value="{{ $editData->type->name }}">
                                                         @error('roomtype_id')
                                                             <div class="invalid-feedback">{{ $message }}</div>
                                                         @enderror
@@ -52,7 +52,7 @@
                                                     
                                                     <div class="col-md-4">
                                                         <label for="input2" class="form-label">Total Adult</label>
-                                                        <input type="text" name="total_adult" class="form-control @error('total_adult') is-invalid @enderror" id="input2" value="{{ $editData->total_adult }}">
+                                                        <input  required ="text" name="total_adult" class="form-control @error('total_adult') is-invalid @enderror" id="input2" value="{{ $editData->total_adult }}">
                                                         @error('total_adult')
                                                             <div class="invalid-feedback">{{ $message }}</div>
                                                         @enderror
@@ -60,7 +60,7 @@
                                                     
                                                     <div class="col-md-4">
                                                         <label for="input2" class="form-label">Total Child</label>
-                                                        <input type="text" name="total_child" class="form-control @error('total_child') is-invalid @enderror" id="input2" value="{{ $editData->total_child }}">
+                                                        <input  required type="text" name="total_child" class="form-control @error('total_child') is-invalid @enderror" id="input2" value="{{ $editData->total_child }}">
                                                         @error('total_child')
                                                             <div class="invalid-feedback">{{ $message }}</div>
                                                         @enderror
@@ -68,7 +68,7 @@
                                                     
                                                     <div class="col-md-6">
                                                         <label for="input3" class="form-label">Main Image</label>
-                                                        <input name="image" type="file" class="form-control @error('image') is-invalid @enderror" id="image">
+                                                        <input  name="image" type="file" class="form-control @error('image') is-invalid @enderror" id="image">
                                                         @error('image')
                                                             <div class="invalid-feedback">{{ $message }}</div>
                                                         @enderror
@@ -90,7 +90,7 @@
                                                     
                                                     <div class="col-md-3">
                                                         <label for="input1" class="form-label">Room Price</label>
-                                                        <input type="text" name="price" class="form-control @error('price') is-invalid @enderror" id="input1" value="{{ $editData->price }}">
+                                                        <input required type="text" name="price" class="form-control @error('price') is-invalid @enderror" id="input1" value="{{ $editData->price }}">
                                                         @error('price')
                                                             <div class="invalid-feedback">{{ $message }}</div>
                                                         @enderror
@@ -98,7 +98,7 @@
                                                     
                                                     <div class="col-md-3">
                                                         <label for="input2" class="form-label">Size</label>
-                                                        <input type="text" name="size" class="form-control @error('size') is-invalid @enderror" id="input2" value="{{ $editData->size }}">
+                                                        <input required type="text" name="size" class="form-control @error('size') is-invalid @enderror" id="input2" value="{{ $editData->size }}">
                                                         @error('size')
                                                             <div class="invalid-feedback">{{ $message }}</div>
                                                         @enderror
@@ -106,7 +106,7 @@
                                                     
                                                     <div class="col-md-3">
                                                         <label for="input2" class="form-label">Discount ( % )</label>
-                                                        <input type="text" name="discount" class="form-control @error('discount') is-invalid @enderror" id="input2" value="{{ $editData->discount }}">
+                                                        <input required type="text" name="discount" class="form-control @error('discount') is-invalid @enderror" id="input2" value="{{ $editData->discount }}">
                                                         @error('discount')
                                                             <div class="invalid-feedback">{{ $message }}</div>
                                                         @enderror
@@ -114,7 +114,7 @@
                                                     
                                                     <div class="col-md-3">
                                                         <label for="input2" class="form-label">Room Capacity</label>
-                                                        <input type="text" name="room_capacity" class="form-control @error('room_capacity') is-invalid @enderror" id="input2" value="{{ $editData->room_capacity }}">
+                                                        <input required type="text" name="room_capacity" class="form-control @error('room_capacity') is-invalid @enderror" id="input2" value="{{ $editData->room_capacity }}">
                                                         @error('room_capacity')
                                                             <div class="invalid-feedback">{{ $message }}</div>
                                                         @enderror
@@ -147,7 +147,7 @@
                                                     
                                                     <div class="col-md-12">
                                                         <label for="input11" class="form-label">Short Description</label>
-                                                        <textarea name="short_desc" class="form-control @error('short_desc') is-invalid @enderror" id="input11" rows="3">{{ $editData->short_desc }}</textarea>
+                                                        <textarea required name="short_desc" class="form-control @error('short_desc') is-invalid @enderror" id="input11" rows="3">{{ $editData->short_desc }}</textarea>
                                                         @error('short_desc')
                                                             <div class="invalid-feedback">{{ $message }}</div>
                                                         @enderror
@@ -155,7 +155,7 @@
                                                     
                                                     <div class="col-md-12">
                                                         <label for="input11" class="form-label">Description</label>
-                                                        <textarea name="description" class="form-control @error('description') is-invalid @enderror" id="myeditorinstance" rows="3">{!! $editData->description !!}</textarea>
+                                                        <textarea required name="description" class="form-control @error('description') is-invalid @enderror" id="myeditorinstance" rows="3">{!! $editData->description !!}</textarea>
                                                         @error('description')
                                                             <div class="invalid-feedback">{{ $message }}</div>
                                                         @enderror
@@ -229,6 +229,7 @@
                                                                                     {{ $item->facility_name == 'Electronic door lock' ? 'selected' : '' }}>
                                                                                     Electronic door lock</option>
                                                                             </select>
+                                                                            
                                                                             @error('facility_name.*')
                                                                             <div class="invalid-feedback">{{ $message }}</div>
                                                                         @enderror

@@ -65,15 +65,15 @@ class AdminController extends Controller
     // Always remember: when the method is POST, you will need to pass Request $request
     public function AdminProfileStore(Request $request)
     {
-        
+
         $id = Auth::user()->id;
 
 
         $validated = $request->validate([
-            'name' => 'required|string|max:255',  
+            'name' => 'required|string|max:255',
             'email' => 'required|email|max:255|unique:users,email,' . $id,  // email must be unique except for the logged-in user's email
-            'phone' => 'nullable|numeric|digits_between:10,15',  
-            'address' => 'nullable|string|max:500',  
+            'phone' => 'nullable|numeric|digits_between:10,15',
+            'address' => 'nullable|string|max:500',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',  // photo should be an image and less than 2MB
         ]);
 
@@ -161,6 +161,16 @@ class AdminController extends Controller
 
     public function StoreAdmin(Request $request)
     {
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255|unique:users,email',
+            'phone' => 'nullable|numeric|digits_between:10,15',
+            'address' => 'nullable|string|max:500',
+            'password' => 'required|string|min:8',
+            'roles' => 'required',
+
+        ]);
         $user = new User();
 
         $user->name = $request->name;
@@ -202,6 +212,16 @@ class AdminController extends Controller
     } // End Method 
     public function UpdateAdmin(Request $request, $id)
     {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'phone' => 'nullable|numeric|digits_between:10,15',
+            'address' => 'nullable|string|max:500',
+            'roles' => 'required',
+
+        ]);
+
+
         $user = User::find($id);
 
         if (!$user) {

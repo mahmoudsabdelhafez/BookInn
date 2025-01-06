@@ -103,6 +103,7 @@
 <div class="form-group">
     <label>  <span class="required"> </span></label>
     <img id="showImage" src="{{ (!empty($profileData->photo)) ? url('upload/user_images/'.$profileData->photo) : url('upload/no_image.jpg') }}" alt="Admin" class="rounded-circle p-1 bg-primary" width="80">
+
 </div>
 </div>
 

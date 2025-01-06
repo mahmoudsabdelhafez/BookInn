@@ -32,34 +32,50 @@
     
     <div class="col-md-6">
         <label for="input1" class="form-label">Admin User Name </label>
-        <input type="text" name="name" class="form-control" value="{{ $user->name }}"  >
+        <input required type="text" name="name" class="form-control" value="{{ $user->name }}"  >
+        @error('name')
+        <small class="text-danger">{{ $message }}</small>
+        @enderror
          
     </div>
     <div class="col-md-6">
         <label for="input1" class="form-label">Admin User Email </label>
-        <input type="email" name="email" class="form-control"  value="{{ $user->email }}"  >
+        <input required type="email" name="email" class="form-control"  value="{{ $user->email }}"  >
+        @error('email')
+        <small class="text-danger">{{ $message }}</small>
+        @enderror
          
     </div>
     <div class="col-md-6">
         <label for="input1" class="form-label">Admin User Phone </label>
-        <input type="text" name="phone" class="form-control"  value="{{ $user->phone }}"  >
+        <input  type="text" name="phone" class="form-control"  value="{{ $user->phone }}"  >
+        @error('phone')
+        <small class="text-danger">{{ $message }}</small>
+        @enderror
          
     </div>
     <div class="col-md-6">
         <label for="input1" class="form-label">Admin User Address </label>
         <input type="text" name="address" class="form-control"  value="{{ $user->address }}"  >
+        @error('address')
+        <small class="text-danger">{{ $message }}</small>
+        @enderror
          
     </div>
  
     <div class="col-md-6">
         <label for="input1" class="form-label">Role Name </label>
-        <select name="roles" class="form-select mb-3" aria-label="Default select example">
+        <select required name="roles" class="form-select mb-3" aria-label="Default select example">
+
             <option selected="">Select Role </option>
             @foreach ($roles as $role)
             <option value="{{ $role->id }}" {{ $user->hasRole($role->name) ? 'selected' : '' }} >{{ $role->name }} </option> 
             @endforeach
             
         </select>
+        @error('roles')
+        <small class="text-danger">{{ $message }}</small>
+        @enderror
          
     </div>
     

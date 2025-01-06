@@ -1,5 +1,5 @@
 
-<div class="room-area pt-100 pb-70 section-bg" style="background-color:#ffffff">
+<div class="room-area pt-100 pb-70 section-bg" >
     <div class="container">
         <div class="section-title text-center">
             <span class="sp-color">ROOMS</span>
@@ -25,13 +25,13 @@
                                         <a href="{{ url('room/details/'.$item->id) }}">{{ $item['type']['name'] }}</a>
                                     </h3>
                                     <span>{{ $item->price }} / Per Night </span>
-                                    <div class="rating">
+                                    {{-- <div class="rating">
                                         <i class='bx bxs-star'></i>
                                         <i class='bx bxs-star'></i>
                                         <i class='bx bxs-star'></i>
                                         <i class='bx bxs-star'></i>
                                         <i class='bx bxs-star'></i>
-                                    </div>
+                                    </div> --}}
                                     <p>{{ $item->short_desc }}</p>
                                     <ul>
                                         <li><i class='bx bx-user'></i> {{ $item->room_capacity }} Person</li>

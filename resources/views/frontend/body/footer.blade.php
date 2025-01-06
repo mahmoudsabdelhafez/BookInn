@@ -14,8 +14,7 @@
                             </a>
                         </div>
                         <p>
-                            Aenean finibus convallis nisl sit amet hendrerit. Etiam blandit velit non lorem mattis, non ultrices eros bibendum .
-                        </p>
+                            BookInn offers a seamless booking experience, combining elegance with convenience. Discover your perfect stay with just a few clicks, and let comfort meet luxury. </p>
                         <ul class="footer-list-contact">
                             <li>
                                 <i class='bx bx-home-alt'></i>
@@ -38,25 +37,25 @@
                         <h3>Links</h3>
                         <ul class="footer-list">
                             <li>
-                                <a href="about.html" target="_blank">
+                                <a href="{{route('contact.us')}}" >
                                     <i class='bx bx-caret-right'></i>
                                     About Us
                                 </a>
                             </li> 
                             <li>
-                                <a href="services-1.html" target="_blank">
+                                <a href="#services" >
                                     <i class='bx bx-caret-right'></i>
                                     Services
                                 </a>
                             </li> 
                             <li>
-                                <a href="team.html" target="_blank">
+                                <a href="#team">
                                     <i class='bx bx-caret-right'></i>
                                     Team
                                 </a>
                             </li> 
                             <li>
-                                <a href="gallery.html" target="_blank">
+                                <a href="{{route('show.gallery')}}" >
                                     <i class='bx bx-caret-right'></i>
                                     Gallery
                                 </a>
@@ -79,36 +78,36 @@
 
                 <div class="col-lg-3 col-md-6">
                     <div class="footer-widget">
-                        <h3>Useful Links</h3>
+                        <h3> Links</h3>
                         <ul class="footer-list">
                             <li>
-                                <a href="index.html" target="_blank">
+                                <a href="{{route('home')}}" >
                                     <i class='bx bx-caret-right'></i>
                                     Home
                                 </a>
                             </li> 
                             <li>
-                                <a href="blog-1.html" target="_blank">
+                                <a href="#blog" >
                                     <i class='bx bx-caret-right'></i>
                                     Blog
                                 </a>
                             </li> 
                             <li>
-                                <a href="faq.html" target="_blank">
+                                <a href="#faq" >
                                     <i class='bx bx-caret-right'></i>
                                     FAQ
                                 </a>
                             </li> 
                             <li>
-                                <a href="testimonials.html" target="_blank">
+                                <a href="#testimonials" >
                                     <i class='bx bx-caret-right'></i>
                                     Testimonials
                                 </a>
                             </li> 
                             <li>
-                                <a href="gallery.html" target="_blank">
+                                <a href="{{route('froom.all')}}" >
                                     <i class='bx bx-caret-right'></i>
-                                    Gallery
+                                    Rooms
                                 </a>
                             </li> 
                             <li>
@@ -125,21 +124,19 @@
                     <div class="footer-widget">
                         <h3>Newsletter</h3>
                         <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                            Nullam tempor eget ante fringilla rutrum aenean sed venenatis .
+                            Stay Updated with BookInn!
+Join our newsletter to receive the latest offers, news, and updates from BookInn.  Sign up now and start planning your perfect getaway with us!
+
+
                         </p>
                         <div class="footer-form">
                             <form class="newsletter-form" data-toggle="validator" method="POST">
                                 <div class="row">
-                                    <div class="col-lg-12">
-                                        <div class="form-group">
-                                            <input type="email" class="form-control" placeholder="Your Email*" name="EMAIL" required autocomplete="off">
-                                        </div>
-                                    </div>
+                                   
 
                                     <div class="col-lg-12 col-md-12">
                                         <button type="submit" class="default-btn btn-bg-one">
-                                            Subscribe Now
+                                            <a style="color: #fff" href="{{ route('froom.all') }}">Book Now</a>
                                         </button>
                                         <div id="validator-newsletter" class="form-result"></div>
                                     </div>
